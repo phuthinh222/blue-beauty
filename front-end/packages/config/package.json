@@ -1,0 +1,14 @@
+{
+  "name": "@repo/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tailwind.config": "./tailwind.config.ts",
+    "./postcss.config": "./postcss.config.js"
+  },
+  "dependencies": {
+    "tailwindcss": "^4"
+  }
+}
+

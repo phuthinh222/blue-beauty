@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "packages/theme/base.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "packages/ui",
+    "utils": "@blue-beauty/utils",
+    "ui": "packages/ui",
+    "lib": "packages/auth",
+    "hooks": "packages/hooks"
+  }
+}
+

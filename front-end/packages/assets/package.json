@@ -1,0 +1,9 @@
+{
+  "name": "@repo/assets",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./logo.png": "./logo.png"
+  }
+}
+
