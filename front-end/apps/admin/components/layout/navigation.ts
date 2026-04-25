@@ -17,7 +17,7 @@ export type NavItem = {
 
 export const navItems: NavItem[] = [
   { href: "/dashboard", label: "Trang chủ", icon: Home },
-  { href: "#", label: "Người dùng", icon: Users },
+  { href: "/dashboard/users", label: "Người dùng", icon: Users },
   { href: "#", label: "Dịch vụ", icon: Wrench },
   { href: "#", label: "Phản hồi", icon: MessageCircle },
   { href: "#", label: "Thông báo", icon: Bell },
