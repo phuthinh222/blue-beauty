@@ -1,11 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { Upload } from "lucide-react";
 
 import { Button } from "@repo/ui/button";
-import { Card, CardContent } from "@repo/ui/card";
 import { Checkbox } from "@repo/ui/checkbox";
 import {
   Dialog,
@@ -18,6 +16,12 @@ import { Input } from "@repo/ui/input";
 import { Label } from "@repo/ui/label";
 import { RadioGroup, RadioGroupItem } from "@repo/ui/radio-group";
 import { Textarea } from "@repo/ui/textarea";
+
+import {
+  DashboardListCard,
+  DashboardPageHeader,
+  DetailField,
+} from "@/components/dashboard";
 
 type Recipient = { id: string; name: string };
 
@@ -48,31 +52,15 @@ export default function NewNotificationPage() {
 
   return (
     <main className="rounded-2xl bg-[#f4f1f9]">
-      <div className="mb-5">
-        <h1 className="text-[28px] font-semibold tracking-tight text-slate-800">
-          Tạo mới thông báo cho khách hàng
-        </h1>
-        <div className="mt-1 flex items-center gap-2 text-sm">
-          <Link
-            href="/dashboard"
-            className="cursor-pointer font-medium text-[#257CBA] hover:underline"
-          >
-            Trang chủ
-          </Link>
-          <span className="text-slate-400">›</span>
-          <Link
-            href="/dashboard/notifications"
-            className="cursor-pointer font-medium text-[#257CBA] hover:underline"
-          >
-            Thông báo
-          </Link>
-          <span className="text-slate-400">›</span>
-          <span className="text-slate-500">Tạo mới</span>
-        </div>
-      </div>
+      <DashboardPageHeader
+        title="Tạo mới thông báo cho khách hàng"
+        breadcrumbs={[
+          { label: "Thông báo", href: "/dashboard/notifications" },
+          { label: "Tạo mới" },
+        ]}
+      />
 
-      <Card className="rounded-2xl border-slate-200 shadow-sm">
-        <CardContent className="p-6">
+      <DashboardListCard>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
               <p className="mb-4 text-sm font-semibold text-slate-800">
@@ -199,8 +187,7 @@ export default function NewNotificationPage() {
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </DashboardListCard>
 
       <Dialog open={recipientsOpen} onOpenChange={setRecipientsOpen}>
         <DialogContent className="max-w-[520px]">
@@ -247,26 +234,20 @@ export default function NewNotificationPage() {
             <DialogTitle>Xem trước thông báo</DialogTitle>
           </DialogHeader>
           <div className="mt-3 space-y-2">
-            <div className="flex items-start gap-6 px-1 py-1.5">
-              <p className="w-28 shrink-0 text-sm text-slate-600">Tiêu đề:</p>
-              <p className="text-sm font-semibold text-slate-900">
+            <DetailField label="Tiêu đề:">
+              <span className="font-semibold text-slate-900">
                 {title || "—"}
-              </p>
-            </div>
-            <div className="flex items-start gap-6 px-1 py-1.5">
-              <p className="w-28 shrink-0 text-sm text-slate-600">Mô tả:</p>
-              <p className="text-sm text-slate-700">{description || "—"}</p>
-            </div>
-            <div className="flex items-start gap-6 px-1 py-1.5">
-              <p className="w-28 shrink-0 text-sm text-slate-600">Người nhận:</p>
-              <p className="text-sm text-slate-700">{recipientsCount} (người)</p>
-            </div>
-            <div className="flex items-start gap-6 px-1 py-1.5">
-              <p className="w-28 shrink-0 text-sm text-slate-600">Gửi:</p>
-              <p className="text-sm text-slate-700">
-                {scheduleMode === "now" ? "Gửi ngay" : scheduleAt}
-              </p>
-            </div>
+              </span>
+            </DetailField>
+            <DetailField label="Mô tả:">
+              <span className="text-slate-700">{description || "—"}</span>
+            </DetailField>
+            <DetailField label="Người nhận:">
+              {recipientsCount} (người)
+            </DetailField>
+            <DetailField label="Gửi:">
+              {scheduleMode === "now" ? "Gửi ngay" : scheduleAt}
+            </DetailField>
           </div>
           <DialogFooter>
             <Button

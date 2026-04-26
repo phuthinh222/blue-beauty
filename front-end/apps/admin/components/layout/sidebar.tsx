@@ -20,7 +20,11 @@ export function Sidebar({ collapsed }: { collapsed?: boolean }) {
       ].join(" ")}
     >
       <div className="flex flex-col items-center">
-        <Link href="/dashboard" aria-label="Về trang dashboard" className="group flex flex-col items-center">
+        <Link
+          href="/dashboard"
+          aria-label="Về trang dashboard"
+          className="group flex flex-col items-center"
+        >
           <div
             className={[
               "grid place-items-center rounded-full bg-white",
@@ -59,13 +63,14 @@ export function Sidebar({ collapsed }: { collapsed?: boolean }) {
         </Link>
       </div>
 
-      <nav className="mt-10 space-y-1">
+      <nav className="mt-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active =
             item.href !== "#" &&
             (pathname === item.href ||
-              (item.href !== "/dashboard" && pathname.startsWith(`${item.href}/`)));
+              (item.href !== "/dashboard" &&
+                pathname.startsWith(`${item.href}/`)));
 
           return (
             <Link
@@ -94,7 +99,9 @@ export function Sidebar({ collapsed }: { collapsed?: boolean }) {
               <span
                 className={[
                   "truncate transition-[max-width,opacity] duration-200 ease-in-out",
-                  isCollapsed ? "max-w-0 opacity-0" : "max-w-[160px] opacity-100",
+                  isCollapsed
+                    ? "max-w-0 opacity-0"
+                    : "max-w-[160px] opacity-100",
                 ].join(" ")}
                 aria-hidden={isCollapsed}
               >
@@ -107,4 +114,3 @@ export function Sidebar({ collapsed }: { collapsed?: boolean }) {
     </aside>
   );
 }
-

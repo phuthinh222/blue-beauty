@@ -4,13 +4,13 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 
 import { ApiError } from "../../lib/api";
-import { getAdminMe, logoutAdmin } from "../../lib/auth";
+import { getAdminMe, logoutAdmin, type AdminMeResponse } from "../../lib/auth";
 import { Sidebar } from "../../components/layout/sidebar";
 import { Topbar } from "../../components/layout/topbar";
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [data, setData] = React.useState<any>(null);
+  const [data, setData] = React.useState<AdminMeResponse | null>(null);
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
 
@@ -47,8 +47,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const user = data?.user as { name?: string; username?: string } | undefined;
   const displayName =
-    (data && (data.user?.name || data.user?.username)) || "Admin";
+    (user && (user.name || user.username)) || "Admin";
 
   return (
     <div className="min-h-[100dvh] bg-[#f4f1f9]">

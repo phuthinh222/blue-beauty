@@ -22,6 +22,6 @@ export const navItems: NavItem[] = [
   { href: "/dashboard/feedback", label: "Phản hồi", icon: MessageCircle },
   { href: "/dashboard/notifications", label: "Thông báo", icon: Bell },
   { href: "/dashboard/ratings", label: "Đánh giá", icon: Star },
-  { href: "#", label: "Đặt lịch", icon: Calendar },
+  { href: "/dashboard/bookings", label: "Đặt lịch", icon: Calendar },
 ];
 
