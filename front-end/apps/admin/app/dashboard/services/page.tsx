@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, Eye, XCircle } from "lucide-react";
+import { CheckCircle2, Eye, MoreHorizontal, XCircle } from "lucide-react";
 
 import { Badge } from "@repo/ui/badge";
 import { Button } from "@repo/ui/button";
@@ -17,6 +17,13 @@ import {
   DialogTitle,
 } from "@repo/ui/dialog";
 import { Input } from "@repo/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@repo/ui/dropdown-menu";
 import {
   Pagination,
   PaginationContent,
@@ -288,43 +295,50 @@ export default function ServicesPage() {
                       <StatusPill status={r.status} />
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="inline-flex items-center gap-1.5">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 cursor-pointer rounded-lg hover:bg-slate-100"
-                          aria-label="Detail"
-                          onClick={() => setDetailTarget(r)}
-                        >
-                          <Eye className="size-4 text-slate-700" />
-                        </Button>
-                        {r.status !== "approved" ? (
-                          <>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-9 w-9 cursor-pointer rounded-lg hover:bg-slate-100"
-                              aria-label="Approve"
-                              onClick={() => setApproveTarget(r)}
-                            >
-                              <CheckCircle2 className="size-4 text-[#257CBA]" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className={`h-9 w-9 cursor-pointer rounded-lg hover:bg-slate-100 ${r.status === "rejected" ? "opacity-40" : ""}`}
-                              aria-label="Reject"
-                              disabled={r.status === "rejected"}
-                              onClick={() => {
-                                setRejectReason("");
-                                setRejectTarget(r);
-                              }}
-                            >
-                              <XCircle className="size-4 text-rose-500" />
-                            </Button>
-                          </>
-                        ) : null}
-                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9 cursor-pointer rounded-lg hover:bg-slate-100"
+                            aria-label="Actions"
+                          >
+                            <MoreHorizontal className="size-4 text-slate-700" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-44">
+                          <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => setDetailTarget(r)}
+                          >
+                            <Eye className="mr-2 size-4 text-slate-700" />
+                            Xem chi tiết
+                          </DropdownMenuItem>
+
+                          {r.status !== "approved" ? (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                className="cursor-pointer"
+                                onClick={() => setApproveTarget(r)}
+                              >
+                                <CheckCircle2 className="mr-2 size-4 text-[#257CBA]" />
+                                Duyệt
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                className="cursor-pointer text-rose-600 focus:text-rose-700"
+                                onClick={() => {
+                                  setRejectReason(r.rejectReason ?? "");
+                                  setRejectTarget(r);
+                                }}
+                              >
+                                <XCircle className="mr-2 size-4 text-rose-500" />
+                                Từ chối
+                              </DropdownMenuItem>
+                            </>
+                          ) : null}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))}
