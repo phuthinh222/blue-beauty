@@ -1,17 +1,19 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 
-import logo from "@repo/assets/logo.png";
 import { Button } from "@repo/ui/button";
 import { Card, CardContent } from "@repo/ui/card";
 import { Checkbox } from "@repo/ui/checkbox";
 import { Input } from "@repo/ui/input";
 import { Label } from "@repo/ui/label";
 import { Separator } from "@repo/ui/separator";
+
+import { ApiError } from "@/lib/api";
+import { loginUser } from "@/lib/auth";
 
 import { INPUT_CLASS, PRIMARY_BTN_CLASS } from "../auth-constants";
 import { AuthShell } from "../auth-shell";
@@ -40,7 +42,15 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function getPostLoginPath() {
+  if (typeof window === "undefined") return "/dashboard";
+  const next = new URLSearchParams(window.location.search).get("next");
+  if (next && next.startsWith("/") && !next.startsWith("//")) return next;
+  return "/dashboard";
+}
+
 export default function LoginPage() {
+  const router = useRouter();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -60,12 +70,30 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      // Minimal stub: only keep the login UI per request.
-      // Replace with real auth integration when user app routes are added back.
-      if (rememberMe) {
-        localStorage.setItem("user_login_hint", safeUsername);
+      const res = await loginUser({ username: safeUsername, password });
+
+      if (res.accessToken) {
+        if (rememberMe) {
+          localStorage.setItem("user_access_token", res.accessToken);
+          sessionStorage.removeItem("user_access_token");
+        } else {
+          sessionStorage.setItem("user_access_token", res.accessToken);
+          localStorage.removeItem("user_access_token");
+        }
+      }
+
+      router.replace(getPostLoginPath());
+    } catch (err) {
+      if (err instanceof ApiError) {
+        if (err.status === 401) {
+          setError("Sai tài khoản hoặc mật khẩu.");
+        } else {
+          setError(err.message || "Đăng nhập thất bại.");
+        }
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
-        sessionStorage.setItem("user_login_hint", safeUsername);
+        setError("Đăng nhập thất bại. Vui lòng thử lại.");
       }
     } finally {
       setIsLoading(false);
