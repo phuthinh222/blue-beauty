@@ -47,9 +47,23 @@ export function AuthShell({
         </div>
 
         {children}
+
+        {/* Mobile-only actions: keep below form to avoid blocking inputs */}
+        <div className="mt-6 flex items-center justify-center gap-3 sm:hidden">
+          <Button asChild size="icon" className={FAB_CLASS} aria-label="Chat">
+            <a href="#">
+              <MessageCircle className="size-5" />
+            </a>
+          </Button>
+          <Button asChild size="icon" className={FAB_CLASS} aria-label="Gọi điện">
+            <a href="tel:">
+              <Phone className="size-5" />
+            </a>
+          </Button>
+        </div>
       </div>
 
-      <div className="fixed right-4 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-2 sm:right-6 sm:gap-3">
+      <div className="fixed right-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col gap-2 sm:flex sm:right-6 sm:gap-3">
         <Button asChild size="icon" className={FAB_CLASS} aria-label="Chat">
           <a href="#">
             <MessageCircle className="size-5 sm:size-6" />
