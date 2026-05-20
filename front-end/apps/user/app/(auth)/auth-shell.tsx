@@ -23,11 +23,11 @@ export function AuthShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-[100dvh] bg-white">
-      <div className="flex min-h-[100dvh] flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-12 lg:py-16">
+    <div className="relative min-h-dvh bg-white">
+      <div className="flex min-h-dvh flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-12 lg:py-16">
         <div className="mb-4 flex flex-col items-center sm:mb-6">
           <div
-            className={`grid ${logoContainerClass} place-items-center rounded-full bg-white`}
+            className={`grid ${logoContainerClass} place-items-center rounded-full bg-white shadow`}
           >
             <Image
               src={logo}
@@ -48,7 +48,7 @@ export function AuthShell({
 
         {children}
 
-        {/* Mobile-only actions: keep below form to avoid blocking inputs */}
+        {/* Mobile-only actions */}
         <div className="mt-6 flex items-center justify-center gap-3 sm:hidden">
           <Button asChild size="icon" className={FAB_CLASS} aria-label="Chat">
             <a href="#">
