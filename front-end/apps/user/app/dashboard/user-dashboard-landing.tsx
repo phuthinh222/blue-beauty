@@ -2,16 +2,17 @@
 
 import * as React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Search, CalendarCheck, Heart, Phone, MessageCircle, Star, Check } from "lucide-react";
+import { Search, CalendarCheck, Heart, Check } from "lucide-react";
 
-import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SectionTitle } from "@/components/shared/section-title";
+import { CtaSection } from "@/components/shared/cta-section";
+import { FloatingActions } from "@/components/shared/floating-actions";
+import { ArtistCard } from "@/components/concept/artist-card";
 
-const FAB =
-  "flex size-12 items-center justify-center rounded-full bg-[#257CBA] text-white shadow-lg ring-1 ring-black/5 transition hover:bg-[#1F6FA1] sm:size-14";
+import logoAsset from "@repo/assets/logo.png";
 
 const SLIDES = [
   "/images/backgound1.png",
@@ -20,30 +21,9 @@ const SLIDES = [
 ];
 
 const FEATURED_ARTISTS = [
-  {
-    name: "Khánh Vân",
-    district: "Hải Châu",
-    city: "Đà Nẵng",
-    rating: 5.0,
-    photo: "/images/makeup1.jpg",
-    avatar: "/images/avatar.png",
-  },
-  {
-    name: "Nguyệt Minh",
-    district: "Ngã Hành Sơn",
-    city: "Đà Nẵng",
-    rating: 5.0,
-    photo: "/images/makeup2.jpg",
-    avatar: "/images/avatar.png",
-  },
-  {
-    name: "Hà Minh Phương",
-    district: "Thanh Khê",
-    city: "Đà Nẵng",
-    rating: 5.0,
-    photo: "/images/makeup5.jpg",
-    avatar: "/images/avatar.png",
-  },
+  { name: "Khánh Vân", district: "Hải Châu", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup1.jpg", avatar: "/images/avatar.png" },
+  { name: "Nguyệt Minh", district: "Ngã Hành Sơn", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup2.jpg", avatar: "/images/avatar.png" },
+  { name: "Hà Minh Phương", district: "Thanh Khê", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup5.jpg", avatar: "/images/avatar.png" },
 ];
 
 const CATEGORIES = [
@@ -70,8 +50,6 @@ const STEPS = [
     desc: "Website hỗ trợ bạn đánh giá thợ trang điểm sau khi trải qua dịch vụ. Hãy ủng hộ để chúng tôi cải thiện dịch vụ tốt hơn cho bạn",
   },
 ];
-
-import logoAsset from "@repo/assets/logo.png";
 
 const customerPoints = [
   "Tìm được thợ phù hợp với nhu cầu",
@@ -159,20 +137,6 @@ function BenefitCard({
   );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-center">
-      <h2 className="text-lg font-semibold text-[#257CBA] sm:text-xl md:text-2xl">
-        {children}
-      </h2>
-      <div className="mx-auto mt-2 flex justify-center gap-1">
-        <span className="h-0.5 w-10 rounded-full bg-[#257CBA]" />
-        <span className="h-0.5 w-10 rounded-full bg-pink-400" />
-      </div>
-    </div>
-  );
-}
-
 export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
   const [current, setCurrent] = React.useState(0);
 
@@ -187,7 +151,7 @@ export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
     <div className="min-h-dvh bg-white pb-16 md:pb-0">
       <SiteHeader onLogout={onLogout} />
 
-      {/* ── Slideshow banner ── */}
+      {/* Slideshow banner */}
       <section id="concept" className="relative overflow-hidden">
         <div className="relative aspect-16/5 w-full">
           {SLIDES.map((src, i) => (
@@ -215,7 +179,7 @@ export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
         </div>
       </section>
 
-      {/* ── Quyền lợi ── */}
+      {/* Quyền lợi */}
       <section id="promo" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
         <SectionTitle>Làm đẹp dễ dàng cùng BlueBeauty</SectionTitle>
         <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
@@ -240,55 +204,23 @@ export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
         </div>
       </section>
 
-      {/* ── Top thợ nổi bật ── */}
+      {/* Top thợ nổi bật */}
       <section id="artists" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
         <SectionTitle>Top thợ trang điểm nổi bật</SectionTitle>
-
         <div className="mt-8 grid gap-5 sm:grid-cols-3">
           {FEATURED_ARTISTS.map((artist) => (
-            <div
-              key={artist.name}
-              className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md"
-            >
-              <div className="relative aspect-square w-full">
-                <Image
-                  src={artist.photo}
-                  alt={artist.name}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 33vw, 90vw"
-                  quality={90}
-                />
-              </div>
-              <div className="relative px-4 pb-4 pt-7">
-                <div className="absolute -top-5 left-4 size-10 overflow-hidden rounded-full border-2 border-white shadow">
-                  <Image src={artist.avatar} alt={artist.name} fill className="object-cover" />
-                </div>
-                <p className="font-semibold text-slate-900">{artist.name}</p>
-                <p className="text-xs text-slate-500">
-                  {artist.district}, {artist.city}
-                </p>
-                <div className="mt-1 flex items-center gap-1">
-                  <Star className="size-3.5 fill-yellow-400 text-yellow-400" />
-                  <span className="text-xs font-medium text-slate-700">{artist.rating.toFixed(1)}</span>
-                </div>
-              </div>
-            </div>
+            <ArtistCard key={artist.name} artist={artist} />
           ))}
         </div>
       </section>
 
-      {/* ── Thể loại ── */}
+      {/* Thể loại */}
       <section id="promo" className="mx-auto max-w-6xl px-4 pb-12 sm:px-6 sm:pb-14 lg:px-8">
         <SectionTitle>Thể loại</SectionTitle>
-
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {CATEGORIES.map((cat) => (
-            <button
-              key={cat.label}
-              className="group relative overflow-hidden rounded-xl"
-            >
-              <div className="relative aspect-square w-full">
+            <button key={cat.label} className="group relative overflow-hidden rounded-xl">
+              <div className="relative aspect-square w-full overflow-hidden">
                 <Image
                   src={cat.img}
                   alt={cat.label}
@@ -297,7 +229,7 @@ export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
                   sizes="(min-width: 1024px) 25vw, 50vw"
                   quality={90}
                 />
-                <div className="absolute inset-0 bg-black/25 group-hover:bg-black/35 transition" />
+                <div className="absolute inset-0 bg-black/25 transition group-hover:bg-black/35" />
               </div>
               <p className="absolute bottom-3 left-0 right-0 text-center text-sm font-semibold text-white">
                 {cat.label}
@@ -307,17 +239,13 @@ export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
         </div>
       </section>
 
-      {/* ── 3 bước ── */}
+      {/* 3 bước */}
       <section className="bg-slate-50 px-4 py-12 sm:px-6 sm:py-14">
         <div className="mx-auto max-w-6xl">
           <SectionTitle>Làm đẹp với BlueBeauty chỉ với 3 bước</SectionTitle>
-
           <div className="mt-8 grid gap-5 sm:grid-cols-3">
             {STEPS.map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="rounded-2xl border border-slate-200 bg-white px-6 py-6 text-center shadow-sm"
-              >
+              <div key={title} className="rounded-2xl border border-slate-200 bg-white px-6 py-6 text-center shadow-sm">
                 <div className="mx-auto flex size-14 items-center justify-center rounded-full border-2 border-pink-400">
                   <Icon className="size-6 text-pink-500" />
                 </div>
@@ -329,50 +257,9 @@ export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
         </div>
       </section>
 
-      {/* ── CTA thợ trang điểm ── */}
-      <section className="relative overflow-hidden bg-[#e0f2fe] px-4 py-14 sm:px-6 sm:py-16">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-48 opacity-20 sm:w-72">
-          <Image src="/images/makeup.png" alt="" fill className="object-contain object-left" />
-        </div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-48 rotate-12 opacity-20 sm:w-72">
-          <Image src="/images/makeup.png" alt="" fill className="object-contain object-right" />
-        </div>
-        <div className="relative mx-auto max-w-2xl text-center">
-          <h2 className="text-lg font-bold text-[#0c4a6e] sm:text-xl md:text-2xl">
-            Bạn có phải là một thợ trang điểm chuyên nghiệp và đầy tham vọng?
-          </h2>
-          <p className="mt-3 text-sm text-slate-600">
-            Tham gia cộng đồng BlueBeauty và nhận booking job ngay hôm nay
-          </p>
-          <Link href="/register">
-            <Button className="mt-6 h-10 rounded-lg bg-[#257CBA] px-8 text-sm font-semibold text-white hover:bg-[#1F6FA1]">
-              Đăng ký
-            </Button>
-          </Link>
-        </div>
-      </section>
-
+      <CtaSection />
       <SiteFooter />
-
-      {/* FAB desktop */}
-      <div className="pointer-events-none fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 md:flex lg:right-8">
-        <a href="tel:" className={`${FAB} pointer-events-auto`} aria-label="Gọi điện">
-          <Phone className="size-6" />
-        </a>
-        <a href="#" className={`${FAB} pointer-events-auto`} aria-label="Chat">
-          <MessageCircle className="size-6" />
-        </a>
-      </div>
-
-      {/* FAB mobile */}
-      <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center gap-3 border-t border-slate-200/80 bg-white/95 px-4 py-3 backdrop-blur md:hidden">
-        <a href="tel:" className={FAB} aria-label="Gọi điện">
-          <Phone className="size-5" />
-        </a>
-        <a href="#" className={FAB} aria-label="Chat">
-          <MessageCircle className="size-5" />
-        </a>
-      </div>
+      <FloatingActions />
     </div>
   );
 }

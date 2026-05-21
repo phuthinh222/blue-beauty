@@ -12,18 +12,22 @@ const ROYAL_BLUE = "bg-[#257CBA] hover:bg-[#1F6FA1]";
 const CONCEPT_ITEMS = [
   {
     title: "Sự kiện",
+    href: "/dashboard/concept/event",
     desc: "Cho những khoảnh khắc đặc biệt, dịch vụ makeup sự kiện của chúng tôi sẽ biến bạn thành trung tâm của sự chú ý",
   },
   {
     title: "Du lịch",
+    href: "/dashboard/concept/travel",
     desc: "Chúng tôi mang đến dịch vụ makeup du lịch hoàn hảo, giúp bạn luôn rạng rỡ trong những khoảnh khắc đáng nhớ",
   },
   {
     title: "Hằng ngày",
+    href: "/dashboard/concept/daily",
     desc: "Dịch vụ makeup hằng ngày của chúng tôi mang đến cho bạn vẻ đẹp tự nhiên và sự tự tin trong từng khoảnh khắc",
   },
   {
     title: "Chụp ảnh",
+    href: "/dashboard/concept/photography",
     desc: "Đảm bảo bạn tỏa sáng trong mọi khung hình với dịch vụ makeup chụp ảnh chuyên nghiệp của chúng tôi",
   },
 ];
@@ -55,8 +59,9 @@ function ConceptDropdown() {
         <div className="absolute left-1/2 top-full mt-[22px] w-[480px] -translate-x-1/2 rounded-xl border border-slate-200 bg-white p-5 shadow-lg">
           <div className="grid grid-cols-2 gap-x-6 gap-y-5">
             {CONCEPT_ITEMS.map((item) => (
-              <button
+              <Link
                 key={item.title}
+                href={item.href}
                 onClick={() => setOpen(false)}
                 className="group cursor-pointer text-left"
               >
@@ -67,7 +72,7 @@ function ConceptDropdown() {
                 <p className="mt-1 text-xs leading-relaxed text-slate-500">
                   {item.desc}
                 </p>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
