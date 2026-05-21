@@ -1,7 +1,7 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import { use } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/layout/site-header";
@@ -13,6 +13,11 @@ import { ArtistStatsBar } from "@/components/artist-profile/artist-stats-bar";
 import { ArtistBio } from "@/components/artist-profile/artist-bio";
 import { ArtistPortfolio } from "@/components/artist-profile/artist-portfolio";
 import { ArtistReviews } from "@/components/artist-profile/artist-reviews";
+import { ArtistServices } from "@/components/artist-profile/artist-services";
+import { ProfileTabs } from "@/components/artist-profile/profile-tabs";
+import { BookingModal } from "@/components/artist-profile/booking-modal";
+import type { ArtistService } from "@/components/artist-profile/types";
+import type { TabId } from "@/components/artist-profile/profile-tabs";
 import { useLogout } from "@/hooks/use-logout";
 import { getArtistById } from "./data";
 
@@ -24,6 +29,19 @@ export default function ArtistProfilePage({
   const { id } = use(params);
   const onLogout = useLogout();
   const artist = getArtistById(id);
+
+  const [activeTab, setActiveTab] = useState<TabId>("intro");
+  const [showBooking, setShowBooking] = useState(false);
+  const [initialService, setInitialService] = useState<ArtistService | undefined>();
+
+  const openBooking = (svc?: ArtistService) => {
+    setInitialService(svc);
+    setShowBooking(true);
+  };
+  const closeBooking = () => {
+    setShowBooking(false);
+    setInitialService(undefined);
+  };
 
   if (!artist) notFound();
 
@@ -45,7 +63,8 @@ export default function ArtistProfilePage({
         </nav>
       </div>
 
-      <main className="mx-auto max-w-2xl space-y-4 px-4 pb-10 sm:px-6">
+      <div className="mx-auto max-w-2xl space-y-4 px-4 sm:px-6">
+        {/* Hero luôn hiển thị */}
         <ArtistHero
           name={artist.name}
           district={artist.district}
@@ -53,24 +72,53 @@ export default function ArtistProfilePage({
           rating={artist.rating}
           coverPhoto={artist.coverPhoto}
           avatar={artist.avatar}
+          onBooking={() => openBooking()}
         />
 
-        <ArtistStatsBar stats={artist.stats} />
+        {/* Stats + tabs — một card thống nhất */}
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <ArtistStatsBar stats={artist.stats} />
+          <div className="sticky top-0 z-10 bg-white">
+            <ProfileTabs activeTab={activeTab} onChange={setActiveTab} />
+          </div>
+        </div>
+      </div>
 
-        <ArtistBio
-          bio={artist.bio}
-          bookingArea={artist.bookingArea}
-          workPrinciples={artist.workPrinciples}
-        />
-
-        <ArtistPortfolio portfolio={artist.portfolio} />
-
-        <ArtistReviews
-          rating={artist.rating}
-          reviewCount={artist.reviews.length}
-          reviews={artist.reviews}
-        />
+      {/* Nội dung tab */}
+      <main className="mx-auto max-w-2xl px-4 py-5 pb-10 sm:px-6">
+        {activeTab === "intro" && (
+          <ArtistBio
+            bio={artist.bio}
+            bookingArea={artist.bookingArea}
+            workPrinciples={artist.workPrinciples}
+          />
+        )}
+        {activeTab === "services" && (
+          <ArtistServices
+            services={artist.services}
+            onBook={(svc) => openBooking(svc)}
+          />
+        )}
+        {activeTab === "portfolio" && (
+          <ArtistPortfolio portfolio={artist.portfolio} />
+        )}
+        {activeTab === "reviews" && (
+          <ArtistReviews
+            rating={artist.rating}
+            reviewCount={artist.reviews.length}
+            reviews={artist.reviews}
+          />
+        )}
       </main>
+
+      {showBooking && (
+        <BookingModal
+          artistName={artist.name}
+          services={artist.services}
+          initialService={initialService}
+          onClose={closeBooking}
+        />
+      )}
 
       <CtaSection />
       <SiteFooter />

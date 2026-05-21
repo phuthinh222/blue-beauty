@@ -19,10 +19,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 120, reviews: 98, services: 5, agreements: 200 },
     portfolio: [
-      { image: "/images/makeup1.jpg", label: "Cô dâu" },
-      { image: "/images/makeup2.jpg", label: "Sự kiện" },
-      { image: "/images/makeup5.jpg", label: "Chụp ảnh" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Cô dâu" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Sự kiện" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Chụp ảnh" },
     ],
+    services: [
+      { id: "bridal",  concept: "Trang điểm cô dâu",  price: 1500000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 600000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "photo",   concept: "Trang điểm chụp ảnh", price: 700000,  duration: "1–2 giờ", includes: ["Makeup chụp ảnh studio/ngoại cảnh", "Tư vấn concept ảnh"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 300000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, tự nhiên", "Phù hợp đi làm, đi học"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "travel",  concept: "Trang điểm du lịch",  price: 450000,  duration: "1 giờ",  includes: ["Makeup bền màu", "Chịu nắng và nước tốt"], description: ["Makeup bền màu, chịu nắng và nước tốt", "Phong cách tươi sáng, tự nhiên phù hợp ảnh du lịch", "Sử dụng sản phẩm chống nắng tích hợp trong makeup", "Di chuyển đến địa điểm theo yêu cầu", "Tư vấn màu sắc phù hợp bối cảnh du lịch", "Hoàn thành trong vòng 1 giờ"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -73,10 +81,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 95, reviews: 82, services: 4, agreements: 170 },
     portfolio: [
-      { image: "/images/makeup2.jpg", label: "Cô dâu" },
-      { image: "/images/makeup5.jpg", label: "Du lịch" },
-      { image: "/images/makeup1.jpg", label: "Sự kiện" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Cô dâu" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Du lịch" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Sự kiện" },
     ],
+    services: [
+      { id: "bridal",  concept: "Trang điểm cô dâu",  price: 1400000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 550000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "travel",  concept: "Trang điểm du lịch",  price: 420000,  duration: "1 giờ",  includes: ["Makeup bền màu", "Chịu nắng và nước tốt"], description: ["Makeup bền màu, chịu nắng và nước tốt", "Phong cách tươi sáng, tự nhiên phù hợp ảnh du lịch", "Sử dụng sản phẩm chống nắng tích hợp trong makeup", "Di chuyển đến địa điểm theo yêu cầu", "Tư vấn màu sắc phù hợp bối cảnh du lịch", "Hoàn thành trong vòng 1 giờ"], },
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 280000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, tự nhiên", "Phù hợp đi làm, đi học"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -117,10 +132,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 80, reviews: 74, services: 4, agreements: 145 },
     portfolio: [
-      { image: "/images/makeup5.jpg", label: "Hằng ngày" },
-      { image: "/images/makeup1.jpg", label: "Chụp ảnh" },
-      { image: "/images/makeup2.jpg", label: "Cô dâu" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Hằng ngày" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Chụp ảnh" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Cô dâu" },
     ],
+    services: [
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 250000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, tự nhiên", "Phù hợp đi làm, đi học"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "photo",   concept: "Trang điểm chụp ảnh", price: 650000,  duration: "1–2 giờ", includes: ["Makeup chụp ảnh studio/ngoại cảnh", "Tư vấn concept ảnh"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+      { id: "bridal",  concept: "Trang điểm cô dâu",  price: 1300000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 500000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -161,10 +183,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 75, reviews: 68, services: 5, agreements: 130 },
     portfolio: [
-      { image: "/images/makeup1.jpg", label: "Phong cách Hàn" },
-      { image: "/images/makeup5.jpg", label: "Cô dâu" },
-      { image: "/images/makeup2.jpg", label: "Sự kiện" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Phong cách Hàn" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Cô dâu" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Sự kiện" },
     ],
+    services: [
+      { id: "korean",  concept: "Trang điểm phong cách Hàn", price: 600000, duration: "1–2 giờ", includes: ["Makeup Hàn Quốc tự nhiên", "Skincare prep trước makeup"], description: ["Phong cách trang điểm Hàn Quốc tự nhiên, trong sáng", "Skincare prep trước khi makeup để da căng bóng", "Sử dụng sản phẩm từ thương hiệu Hàn Quốc uy tín", "Tư vấn màu son, phấn phù hợp với tone da", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "bridal",  concept: "Trang điểm cô dâu",  price: 1350000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 550000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "photo",   concept: "Trang điểm chụp ảnh", price: 650000,  duration: "1–2 giờ", includes: ["Makeup chụp ảnh studio/ngoại cảnh", "Tư vấn concept ảnh"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 270000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, tự nhiên", "Phong cách Hàn Quốc"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -205,10 +235,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 88, reviews: 76, services: 6, agreements: 155 },
     portfolio: [
-      { image: "/images/makeup2.jpg", label: "Sự kiện" },
-      { image: "/images/makeup1.jpg", label: "Thương mại" },
-      { image: "/images/makeup5.jpg", label: "Cô dâu" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Sự kiện" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Thương mại" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Cô dâu" },
     ],
+    services: [
+      { id: "event",     concept: "Trang điểm sự kiện",  price: 580000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "commercial",concept: "Trang điểm thương mại", price: 900000, duration: "2–3 giờ", includes: ["Makeup quảng cáo / sản phẩm", "Phối hợp với nhiếp ảnh gia"], description: ["Trang điểm chuyên nghiệp cho quảng cáo và sản phẩm", "Phối hợp với ekip nhiếp ảnh, đạo diễn theo yêu cầu", "Makeup HD bền màu dưới mọi điều kiện ánh sáng", "Có thể phục vụ nhiều người trong cùng buổi", "Điều chỉnh linh hoạt theo yêu cầu thương hiệu", "Cung cấp hóa đơn, hợp đồng khi cần"], },
+      { id: "bridal",    concept: "Trang điểm cô dâu",  price: 1400000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "travel",    concept: "Trang điểm du lịch",  price: 430000,  duration: "1 giờ",  includes: ["Makeup bền màu", "Chịu nắng và nước tốt"], description: ["Makeup bền màu, chịu nắng và nước tốt", "Phong cách tươi sáng, tự nhiên phù hợp ảnh du lịch", "Sử dụng sản phẩm chống nắng tích hợp trong makeup", "Di chuyển đến địa điểm theo yêu cầu", "Tư vấn màu sắc phù hợp bối cảnh du lịch", "Hoàn thành trong vòng 1 giờ"], },
+      { id: "daily",     concept: "Trang điểm hằng ngày", price: 260000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, tự nhiên"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -249,10 +287,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 70, reviews: 65, services: 4, agreements: 120 },
     portfolio: [
-      { image: "/images/makeup5.jpg", label: "Du lịch" },
-      { image: "/images/makeup2.jpg", label: "Ngoại cảnh" },
-      { image: "/images/makeup1.jpg", label: "Hằng ngày" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Du lịch" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Ngoại cảnh" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Hằng ngày" },
     ],
+    services: [
+      { id: "travel",  concept: "Trang điểm du lịch",  price: 400000,  duration: "1 giờ",  includes: ["Makeup bền màu", "Chịu nắng và nước tốt", "Di chuyển đến địa điểm"], description: ["Makeup bền màu, chịu nắng và nước tốt", "Phong cách tươi sáng, tự nhiên phù hợp ảnh du lịch", "Sử dụng sản phẩm chống nắng tích hợp trong makeup", "Di chuyển đến địa điểm theo yêu cầu", "Tư vấn màu sắc phù hợp bối cảnh du lịch", "Hoàn thành trong vòng 1 giờ"], },
+      { id: "outdoor", concept: "Trang điểm ngoại cảnh", price: 500000, duration: "1–2 giờ", includes: ["Makeup phù hợp chụp ngoài trời", "Tư vấn màu sắc theo background"], description: ["Makeup tối ưu cho ánh sáng tự nhiên ngoài trời", "Tư vấn màu sắc phù hợp với background và trang phục", "Sản phẩm chống nắng, chịu nhiệt độ cao", "Di chuyển đến địa điểm chụp theo yêu cầu", "Phối hợp với nhiếp ảnh gia để đạt kết quả tốt nhất", "Hoàn thành trong vòng 1–2 giờ"], },
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 250000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, tự nhiên", "Tươi sáng, trẻ trung"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 520000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -293,10 +338,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 110, reviews: 95, services: 7, agreements: 190 },
     portfolio: [
-      { image: "/images/makeup1.jpg", label: "Sân khấu" },
-      { image: "/images/makeup5.jpg", label: "Truyền hình" },
-      { image: "/images/makeup2.jpg", label: "Sự kiện" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Sân khấu" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Truyền hình" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Sự kiện" },
     ],
+    services: [
+      { id: "stage",   concept: "Trang điểm sân khấu", price: 1000000, duration: "2–3 giờ", includes: ["Makeup sân khấu chuyên nghiệp", "Airbush foundation", "Touch-up không giới hạn"], description: ["Trang điểm sân khấu chuyên nghiệp, bắt đèn tốt", "Sử dụng airbrush foundation cho độ phủ hoàn hảo", "Makeup bền lâu dưới ánh đèn sân khấu cường độ cao", "Có thể phục vụ nhiều nghệ sĩ trong cùng buổi diễn", "Đúng giờ, làm việc được dưới áp lực thời gian", "Touch-up không giới hạn trong suốt sự kiện"], },
+      { id: "tv",      concept: "Trang điểm truyền hình", price: 1200000, duration: "2–3 giờ", includes: ["Makeup HD truyền hình", "Phối hợp với đạo diễn", "Xử lý ánh đèn studio"], description: ["Makeup HD chuyên biệt cho quay phim và truyền hình", "Hiểu rõ cách ánh đèn studio ảnh hưởng đến makeup", "Phối hợp với đạo diễn và quay phim theo yêu cầu", "Kinh soát bóng dầu và phản sáng camera hiệu quả", "Điều chỉnh nhanh giữa các cảnh quay", "Cung cấp hóa đơn, hợp đồng khi cần"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 650000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Airbrush foundation", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "bridal",  concept: "Trang điểm cô dâu",  price: 1500000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "photo",   concept: "Trang điểm chụp ảnh", price: 750000,  duration: "1–2 giờ", includes: ["Makeup chụp ảnh studio/ngoại cảnh", "Phối hợp với nhiếp ảnh gia"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -337,10 +390,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 65, reviews: 58, services: 4, agreements: 105 },
     portfolio: [
-      { image: "/images/makeup2.jpg", label: "Sáng tạo" },
-      { image: "/images/makeup1.jpg", label: "Cô dâu" },
-      { image: "/images/makeup5.jpg", label: "Chụp ảnh" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Sáng tạo" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Cô dâu" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Chụp ảnh" },
     ],
+    services: [
+      { id: "creative", concept: "Trang điểm sáng tạo", price: 800000, duration: "2–3 giờ", includes: ["Concept makeup độc đáo", "Tư vấn ý tưởng cùng khách", "Chụp ảnh lưu kết quả"], description: ["Concept makeup độc đáo, cá nhân hóa cho từng khách", "Tư vấn ý tưởng và tham khảo inspirations cùng khách hàng", "Sử dụng màu sắc và kỹ thuật đa dạng, sáng tạo", "Chụp ảnh lưu kết quả để tham khảo lần sau", "Phù hợp cho chụp ảnh nghệ thuật, cosplay, concept shoot", "Trang điểm tại studio hoặc địa điểm theo yêu cầu"], },
+      { id: "bridal",   concept: "Trang điểm cô dâu",  price: 1300000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "photo",    concept: "Trang điểm chụp ảnh", price: 680000, duration: "1–2 giờ", includes: ["Makeup chụp ảnh studio/ngoại cảnh", "Tư vấn concept ảnh"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+      { id: "event",    concept: "Trang điểm sự kiện",  price: 540000, duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -381,10 +441,18 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 72, reviews: 63, services: 5, agreements: 115 },
     portfolio: [
-      { image: "/images/makeup5.jpg", label: "Chăm sóc da" },
-      { image: "/images/makeup2.jpg", label: "Cô dâu" },
-      { image: "/images/makeup1.jpg", label: "Sự kiện" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Chăm sóc da" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Cô dâu" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Sự kiện" },
     ],
+    services: [
+      { id: "bridal",   concept: "Trang điểm cô dâu",  price: 1400000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Skincare prep", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "event",    concept: "Trang điểm sự kiện",  price: 560000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Skincare prep", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "skincare", concept: "Chăm sóc da + Makeup", price: 700000, duration: "2 giờ",   includes: ["Skincare chuyên sâu", "Makeup tự nhiên", "Tư vấn routine da"], description: ["Kết hợp chăm sóc da chuyên sâu trước khi makeup", "Tư vấn routine skincare phù hợp với loại da", "Sử dụng sản phẩm skincare chính hãng, an toàn", "Makeup tự nhiên, tôn lên vẻ đẹp của làn da khỏe", "Tư vấn cách chăm sóc da sau khi tẩy trang", "Thời gian bao gồm cả skincare prep và makeup"], },
+      { id: "photo",    concept: "Trang điểm chụp ảnh", price: 680000, duration: "1–2 giờ", includes: ["Makeup chụp ảnh", "Skincare prep", "Tư vấn concept"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+      { id: "daily",    concept: "Trang điểm hằng ngày", price: 280000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, bài bản", "Tư vấn màu sắc học"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -425,10 +493,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 55, reviews: 50, services: 3, agreements: 90 },
     portfolio: [
-      { image: "/images/makeup1.jpg", label: "Glam" },
-      { image: "/images/makeup5.jpg", label: "Tiệc đêm" },
-      { image: "/images/makeup2.jpg", label: "Bold" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Glam" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Tiệc đêm" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Bold" },
     ],
+    services: [
+      { id: "glam",   concept: "Trang điểm Glam",    price: 700000,  duration: "1–2 giờ", includes: ["Makeup glam sang chảnh", "Phù hợp dự tiệc, lễ hội"], description: ["Phong cách glam sang chảnh, phù hợp dự tiệc và lễ hội", "Contouring, highlight chuyên nghiệp theo khuôn mặt", "Dùng sản phẩm cao cấp bền màu cả đêm", "Tư vấn phong cách phù hợp với trang phục", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu"], },
+      { id: "party",  concept: "Trang điểm tiệc đêm", price: 650000,  duration: "1–2 giờ", includes: ["Makeup tiệc đêm bắt đèn", "Smokey eye, highlight"], description: ["Makeup tiệc đêm bắt đèn, smokey eye và highlight rực rỡ", "Sản phẩm bền lâu, chống trôi suốt đêm tiệc", "Tư vấn màu mắt và son phù hợp với outfit", "Phong cách táo bạo hoặc quyến rũ theo yêu cầu", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "bold",   concept: "Trang điểm Bold",    price: 750000,  duration: "1–2 giờ", includes: ["Makeup nghệ thuật, cá tính", "Chụp ảnh, concept sáng tạo"], description: ["Makeup nghệ thuật, cá tính và đầy sáng tạo", "Phù hợp cho chụp ảnh concept, editorial, fashion", "Sử dụng màu sắc độc đáo, kỹ thuật đa dạng", "Tư vấn ý tưởng và tham khảo inspirations", "Chụp ảnh lưu lại kết quả sau buổi makeup", "Trang điểm tại studio hoặc địa điểm theo yêu cầu"], },
+      { id: "event",  concept: "Trang điểm sự kiện",  price: 500000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -469,10 +544,17 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 90, reviews: 80, services: 5, agreements: 160 },
     portfolio: [
-      { image: "/images/makeup2.jpg", label: "Chụp ảnh" },
-      { image: "/images/makeup1.jpg", label: "Cô dâu" },
-      { image: "/images/makeup5.jpg", label: "Sự kiện" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Chụp ảnh" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Cô dâu" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Sự kiện" },
     ],
+    services: [
+      { id: "photo",   concept: "Trang điểm chụp ảnh", price: 720000, duration: "1–2 giờ", includes: ["Makeup chụp ảnh studio/ngoại cảnh", "Phối hợp với nhiếp ảnh gia", "Điều chỉnh theo ánh sáng"], description: ["Trang điểm tối ưu cho camera, ánh sáng studio và ngoại cảnh", "Phối hợp chặt chẽ với nhiếp ảnh gia", "Sử dụng sản phẩm kiểm soát bóng dầu bền lâu", "Tư vấn concept và màu sắc phù hợp với bối cảnh chụp", "Điều chỉnh linh hoạt giữa các set ảnh", "Trang điểm tại studio hoặc địa điểm chụp theo yêu cầu"], },
+      { id: "bridal",  concept: "Trang điểm cô dâu",  price: 1350000, duration: "3–4 giờ", includes: ["Makeup cô dâu + phù dâu", "Touch-up 2 lần", "Tư vấn trước ngày cưới"], description: ["Trang điểm cô dâu nhẹ nhàng, bền màu suốt cả ngày", "Dịch vụ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho mọi loại da", "Chăm sóc da và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hỗ trợ touch-up trong suốt sự kiện nếu cần"], },
+      { id: "event",   concept: "Trang điểm sự kiện",  price: 560000,  duration: "1–2 giờ", includes: ["Makeup sự kiện", "Lựa chọn phong cách", "Touch-up 1 lần"], description: ["Phong cách trang điểm phù hợp với từng loại sự kiện", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín, an toàn cho da", "Tư vấn phong cách trước buổi hẹn", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 270000, duration: "45 phút", includes: ["Makeup nhẹ nhàng, hiện đại"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+    ],
+
     reviews: [
       {
         id: "r1",
@@ -513,10 +595,16 @@ export const ARTIST_PROFILES: ArtistProfile[] = [
     ],
     stats: { profiles: 60, reviews: 52, services: 3, agreements: 95 },
     portfolio: [
-      { image: "/images/makeup5.jpg", label: "Tự nhiên" },
-      { image: "/images/makeup1.jpg", label: "Hằng ngày" },
-      { image: "/images/makeup2.jpg", label: "Du lịch" },
+      { images: ["/images/makeup5.jpg", "/images/makeup1.jpg", "/images/makeup2.jpg"], label: "Tự nhiên" },
+      { images: ["/images/makeup1.jpg", "/images/makeup2.jpg", "/images/makeup5.jpg"], label: "Hằng ngày" },
+      { images: ["/images/makeup2.jpg", "/images/makeup5.jpg", "/images/makeup1.jpg"], label: "Du lịch" },
     ],
+    services: [
+      { id: "natural", concept: "Trang điểm tự nhiên",  price: 280000, duration: "45 phút", includes: ["Makeup tự nhiên, trong sáng", "Tôn lên vẻ đẹp tự có"], description: ["Tôn vinh vẻ đẹp tự nhiên, không trang điểm quá đà", "Phong cách trong sáng, tươi tắn và tự tin", "Sử dụng sản phẩm nhẹ nhàng, an toàn cho da nhạy cảm", "Tư vấn chân thành về điểm mạnh của từng khuôn mặt", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu"], },
+      { id: "daily",   concept: "Trang điểm hằng ngày", price: 250000, duration: "45 phút", includes: ["Makeup nhẹ nhàng", "Phù hợp đi làm, đi học"], description: ["Phong cách trang điểm nhẹ, phù hợp với trang phục hằng ngày", "Dịch vụ chỉ bao gồm trang điểm, không bao gồm làm tóc", "Sử dụng mỹ phẩm uy tín và an toàn cho da, phù hợp mọi loại da", "Chăm sóc da nhanh và che khuyết điểm trước khi trang điểm", "Đúng giờ, nhiệt tình và có trách nhiệm", "Trang điểm tại nhà hoặc địa điểm theo yêu cầu", "Hoàn thành trong vòng 1 giờ 30 phút"], },
+      { id: "travel",  concept: "Trang điểm du lịch",  price: 380000,  duration: "1 giờ",  includes: ["Makeup bền màu", "Tự nhiên phù hợp ảnh du lịch"], description: ["Makeup bền màu, chịu nắng và nước tốt", "Phong cách tươi sáng, tự nhiên phù hợp ảnh du lịch", "Sử dụng sản phẩm chống nắng tích hợp trong makeup", "Di chuyển đến địa điểm theo yêu cầu", "Tư vấn màu sắc phù hợp bối cảnh du lịch", "Hoàn thành trong vòng 1 giờ"], },
+    ],
+
     reviews: [
       {
         id: "r1",

@@ -27,7 +27,7 @@ export function ArtistStatsBar({ stats }: ArtistStatsBarProps) {
   ];
 
   return (
-    <div className="flex items-center justify-around rounded-2xl border border-slate-200 bg-white px-6 py-4 shadow-sm">
+    <div className="flex items-center justify-around px-6 py-4">
       {items.map((item, index) => (
         <div key={item.label} className="flex items-center gap-6">
           <StatItem value={item.value} label={item.label} />

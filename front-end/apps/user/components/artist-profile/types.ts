@@ -1,5 +1,5 @@
 export type PortfolioItem = {
-  image: string;
+  images: string[];
   label: string;
 };
 
@@ -21,6 +21,15 @@ export type ArtistStats = {
   agreements: number;
 };
 
+export type ArtistService = {
+  id: string;
+  concept: string;
+  price: number;
+  duration: string;
+  includes: string[];
+  description: string[];
+};
+
 export type ArtistProfile = {
   id: string;
   name: string;
@@ -35,4 +44,5 @@ export type ArtistProfile = {
   stats: ArtistStats;
   portfolio: PortfolioItem[];
   reviews: ArtistReview[];
+  services: ArtistService[];
 };
