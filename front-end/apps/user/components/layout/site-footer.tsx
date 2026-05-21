@@ -94,7 +94,7 @@ export function SiteFooter() {
                   aria-label={label}
                   className="flex size-9 items-center justify-center rounded-full bg-[#257CBA] text-white transition hover:bg-[#1F6FA1]"
                 >
-                  <Icon className="size-4" />
+                  <Icon />
                 </a>
               ))}
             </div>

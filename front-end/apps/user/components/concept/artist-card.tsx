@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Star } from "lucide-react";
 
 export type Artist = {
+  id?: string;
   name: string;
   district: string;
   city: string;
@@ -19,7 +21,7 @@ export function ArtistCard({
   imageAspect?: string;
   compact?: boolean;
 }) {
-  return (
+  const card = (
     <div className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
       <div className={`relative w-full overflow-hidden ${imageAspect}`}>
         <Image
@@ -68,4 +70,10 @@ export function ArtistCard({
       )}
     </div>
   );
+
+  if (artist.id) {
+    return <Link href={`/dashboard/artists/${artist.id}`}>{card}</Link>;
+  }
+
+  return card;
 }
