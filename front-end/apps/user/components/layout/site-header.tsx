@@ -106,9 +106,9 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
           <ConceptDropdown />
-          <a href="#artists" className="hover:text-[#257CBA]">
+          <Link href="/dashboard/artists" className="hover:text-[#257CBA]">
             Thợ trang điểm
-          </a>
+          </Link>
           <a href="#promo" className="hover:text-[#257CBA]">
             Khuyến mãi
           </a>
@@ -141,7 +141,7 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
       <div className="border-t border-slate-100 px-4 py-2 md:hidden">
         <nav className="flex gap-4 overflow-x-auto pb-1 text-xs font-medium text-slate-600 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <a href="#concept" className="shrink-0 hover:text-[#257CBA]">Concept</a>
-          <a href="#artists" className="shrink-0 hover:text-[#257CBA]">Thợ trang điểm</a>
+          <Link href="/dashboard/artists" className="shrink-0 hover:text-[#257CBA]">Thợ trang điểm</Link>
           <a href="#promo" className="shrink-0 hover:text-[#257CBA]">Khuyến mãi</a>
           <a href="#try-on" className="shrink-0 hover:text-[#257CBA]">Try on makeup</a>
         </nav>

@@ -10,10 +10,18 @@ export type Artist = {
   avatar: string;
 };
 
-export function ArtistCard({ artist }: { artist: Artist }) {
+export function ArtistCard({
+  artist,
+  imageAspect = "aspect-square",
+  compact = false,
+}: {
+  artist: Artist;
+  imageAspect?: string;
+  compact?: boolean;
+}) {
   return (
     <div className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
-      <div className="relative aspect-square w-full overflow-hidden">
+      <div className={`relative w-full overflow-hidden ${imageAspect}`}>
         <Image
           src={artist.photo}
           alt={artist.name}
@@ -26,19 +34,38 @@ export function ArtistCard({ artist }: { artist: Artist }) {
           <span className="text-sm font-semibold text-white">Xem hồ sơ</span>
         </div>
       </div>
-      <div className="relative flex items-center justify-between px-4 pb-4 pt-7">
-        <div className="absolute -top-5 left-4 size-10 overflow-hidden rounded-full border-2 border-white shadow">
-          <Image src={artist.avatar} alt={artist.name} fill className="object-cover" />
+
+      {compact ? (
+        <div className="flex items-center justify-between gap-2 px-3 py-2.5">
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="relative size-7 shrink-0 overflow-hidden rounded-full border border-slate-200">
+              <Image src={artist.avatar} alt={artist.name} fill className="object-cover" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-xs font-semibold text-slate-900">{artist.name}</p>
+              <p className="truncate text-[10px] text-slate-500">{artist.district}, {artist.city}</p>
+            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-0.5">
+            <Star className="size-3 fill-yellow-400 text-yellow-400" />
+            <span className="text-[10px] font-medium text-slate-700">{artist.rating.toFixed(1)}</span>
+          </div>
         </div>
-        <div>
-          <p className="font-semibold text-slate-900">{artist.name}</p>
-          <p className="text-xs text-slate-500">{artist.district}, {artist.city}</p>
+      ) : (
+        <div className="relative flex items-center justify-between px-4 pb-4 pt-7">
+          <div className="absolute -top-5 left-4 size-10 overflow-hidden rounded-full border-2 border-white shadow">
+            <Image src={artist.avatar} alt={artist.name} fill className="object-cover" />
+          </div>
+          <div>
+            <p className="font-semibold text-slate-900">{artist.name}</p>
+            <p className="text-xs text-slate-500">{artist.district}, {artist.city}</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <Star className="size-3.5 fill-yellow-400 text-yellow-400" />
+            <span className="text-xs font-medium text-slate-700">{artist.rating.toFixed(1)}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          <Star className="size-3.5 fill-yellow-400 text-yellow-400" />
-          <span className="text-xs font-medium text-slate-700">{artist.rating.toFixed(1)}</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
