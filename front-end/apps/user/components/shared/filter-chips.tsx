@@ -1,15 +1,17 @@
 import { SlidersHorizontal } from "lucide-react";
+import type { ReactNode } from "react";
 
 type FilterChipsProps = {
   options: string[];
   selected: string;
   onChange: (value: string) => void;
+  icon?: ReactNode;
 };
 
-export function FilterChips({ options, selected, onChange }: FilterChipsProps) {
+export function FilterChips({ options, selected, onChange, icon }: FilterChipsProps) {
   return (
     <div className="flex items-center gap-2">
-      <SlidersHorizontal className="size-4 shrink-0 text-brand" />
+      {icon ?? <SlidersHorizontal className="size-4 shrink-0 text-brand" />}
       <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {options.map((option) => (
           <button
