@@ -13,10 +13,14 @@ export type UserLoginResponse = {
   user?: unknown;
 };
 
-export type UserMeResponse = {
-  user?: unknown;
+export type UserProfile = {
+  displayName?: string;
+  username?: string;
+  avatar?: string;
   [key: string]: unknown;
 };
+
+export type UserMeResponse = UserProfile;
 
 const USER_ACCESS_TOKEN_KEY = "user_access_token";
 

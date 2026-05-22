@@ -6,6 +6,7 @@ import { Search, CalendarCheck, Heart, Check } from "lucide-react";
 
 import { Card } from "@repo/ui/card";
 import { SiteHeader } from "@/components/layout/site-header";
+import type { UserProfile } from "@/lib/auth";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionTitle } from "@/components/shared/section-title";
 import { CtaSection } from "@/components/shared/cta-section";
@@ -137,7 +138,7 @@ function BenefitCard({
   );
 }
 
-export function UserDashboardLanding({ onLogout }: { onLogout?: () => void }) {
+export function UserDashboardLanding({ onLogout, user }: { onLogout?: () => void; user?: UserProfile | null }) {
   const [current, setCurrent] = React.useState(0);
 
   React.useEffect(() => {
@@ -149,7 +150,7 @@ export function UserDashboardLanding({ onLogout }: { onLogout?: () => void }) {
 
   return (
     <div className="min-h-dvh bg-white pb-16 md:pb-0">
-      <SiteHeader onLogout={onLogout} />
+      <SiteHeader onLogout={onLogout} user={user} />
 
       {/* Slideshow banner */}
       <section id="concept" className="relative overflow-hidden">

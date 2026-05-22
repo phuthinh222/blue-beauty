@@ -3,11 +3,13 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { LogOut, User } from "lucide-react";
 
 import logoAsset from "@repo/assets/logo.png";
 import { Button } from "@repo/ui/button";
 
 import { CONCEPT_ITEMS } from "@/lib/config/navigation";
+import type { UserProfile } from "@/lib/auth";
 
 function ConceptDropdown() {
   const [open, setOpen] = React.useState(false);
@@ -56,7 +58,78 @@ function ConceptDropdown() {
   );
 }
 
-export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
+type UserMenuProps = {
+  user: UserProfile;
+  onLogout: () => void;
+};
+
+function UserMenu({ user, onLogout }: UserMenuProps) {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  const displayName = user.displayName ?? user.username ?? "Người dùng";
+  const initials = displayName.charAt(0).toUpperCase();
+
+  React.useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex cursor-pointer items-center gap-2 rounded-full transition hover:opacity-80"
+      >
+        <div className="relative size-9 overflow-hidden rounded-full border-2 border-slate-200">
+          {user.avatar ? (
+            <Image src={user.avatar} alt={displayName} fill className="object-cover" />
+          ) : (
+            <div className="flex size-full items-center justify-center bg-brand text-sm font-semibold text-white">
+              {initials}
+            </div>
+          )}
+        </div>
+        <span className="hidden text-sm font-semibold text-slate-800 sm:block">{displayName}</span>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full mt-2 w-48 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+          <Link
+            href="/dashboard/users"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 transition hover:bg-slate-50"
+          >
+            <User className="size-4 text-slate-400" />
+            Hồ sơ cá nhân
+          </Link>
+          <div className="mx-3 border-t border-slate-100" />
+          <button
+            onClick={() => { setOpen(false); onLogout(); }}
+            className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-600 transition hover:bg-red-50"
+          >
+            <LogOut className="size-4" />
+            Đăng xuất
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+type SiteHeaderProps = {
+  onLogout?: () => void;
+  user?: UserProfile | null;
+};
+
+export function SiteHeader({ onLogout, user }: SiteHeaderProps) {
+  const isLoggedIn = !!onLogout;
+
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -66,20 +139,15 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
+          <Link href="/dashboard" className="hover:text-brand">Trang chủ</Link>
           <ConceptDropdown />
           <Link href="/dashboard/artists" className="hover:text-brand">Thợ trang điểm</Link>
           <Link href="/dashboard/promotions" className="hover:text-brand">Khuyến mãi</Link>
           <a href="#try-on" className="hover:text-brand">Try on makeup</a>
         </nav>
 
-        {onLogout ? (
-          <Button
-            type="button"
-            className="h-9 shrink-0 rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-dark sm:px-4"
-            onClick={onLogout}
-          >
-            Đăng xuất
-          </Button>
+        {isLoggedIn && onLogout ? (
+          <UserMenu user={user ?? {}} onLogout={onLogout} />
         ) : (
           <div className="flex shrink-0 items-center gap-2">
             <Link href="/register">

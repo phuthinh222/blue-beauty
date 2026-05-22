@@ -31,7 +31,7 @@ export default function ArtistProfilePage({
   const { id } = use(params);
   const router = useRouter();
   const pathname = usePathname();
-  const { isLoggedIn, onLogout } = useAuth();
+  const { isLoggedIn, user, onLogout } = useAuth();
   const artist = getArtistById(id);
 
   const [activeTab, setActiveTab] = useState<TabId>("intro");
@@ -55,7 +55,7 @@ export default function ArtistProfilePage({
 
   return (
     <div className="min-h-dvh bg-slate-50 pb-16 md:pb-0">
-      <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} />
+      <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} user={user} />
 
       <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">
