@@ -74,7 +74,7 @@ export function SiteFooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-500 hover:text-[#257CBA]"
+                    className="text-sm text-slate-500 hover:text-brand"
                   >
                     {link.label}
                   </Link>
@@ -92,7 +92,7 @@ export function SiteFooter() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex size-9 items-center justify-center rounded-full bg-[#257CBA] text-white transition hover:bg-[#1F6FA1]"
+                  className="flex size-9 items-center justify-center rounded-full bg-brand text-white transition hover:bg-brand-dark"
                 >
                   <Icon />
                 </a>

@@ -30,7 +30,7 @@ export default function ArtistsPage() {
 
       <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Link href="/dashboard" className="hover:text-[#257CBA]">
+          <Link href="/dashboard" className="hover:text-brand">
             Trang chủ
           </Link>
           <span>›</span>

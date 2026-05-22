@@ -22,19 +22,19 @@ function ServiceCard({ service, onBook }: ServiceCardProps) {
           <ul className="mt-2 space-y-1">
             {service.includes.map((item) => (
               <li key={item} className="flex items-center gap-1.5 text-xs text-slate-500">
-                <span className="size-1 shrink-0 rounded-full bg-[#257CBA]" />
+                <span className="size-1 shrink-0 rounded-full bg-brand" />
                 {item}
               </li>
             ))}
           </ul>
         </div>
         <div className="shrink-0 text-right">
-          <p className="text-lg font-bold text-[#257CBA]">
+          <p className="text-lg font-bold text-brand">
             {service.price.toLocaleString("vi-VN")}₫
           </p>
           <button
             onClick={() => onBook(service)}
-            className="mt-2 rounded-lg bg-[#257CBA] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#1e6aa0]"
+            className="mt-2 rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-brand-dark"
           >
             Đặt ngay
           </button>
@@ -59,7 +59,7 @@ function ServiceCard({ service, onBook }: ServiceCardProps) {
             {service.description.map((line) => (
               <li key={line} className="flex items-start gap-2 text-xs text-slate-600">
                 <svg
-                  className="mt-0.5 size-3.5 shrink-0 text-[#257CBA]"
+                  className="mt-0.5 size-3.5 shrink-0 text-brand"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >

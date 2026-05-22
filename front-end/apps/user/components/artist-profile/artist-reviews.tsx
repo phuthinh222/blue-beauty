@@ -28,7 +28,7 @@ function ReviewCard({ review }: ReviewCardProps) {
 
       {review.reply && (
         <div className="mt-3 rounded-lg bg-slate-50 p-3">
-          <p className="mb-1 text-xs font-semibold text-[#257CBA]">Phản hồi từ thợ</p>
+          <p className="mb-1 text-xs font-semibold text-brand">Phản hồi từ thợ</p>
           <p className="text-sm text-slate-600">{review.reply}</p>
         </div>
       )}

@@ -117,7 +117,7 @@ export default function ResetPasswordOtpPage() {
             ) : (
               <p className="text-center text-xs text-slate-600">
                 Bạn không nhận được email?{" "}
-                <Link href="/reset-password" className="text-[#2580B9] underline">
+                <Link href="/reset-password" className="text-brand underline">
                   Thử lại
                 </Link>
               </p>

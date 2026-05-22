@@ -25,7 +25,7 @@ export function Pagination({ current, total, onChange }: PaginationProps) {
           onClick={() => onChange(p)}
           className={`flex size-9 items-center justify-center rounded-lg text-sm font-medium transition ${
             p === current
-              ? "bg-[#257CBA] text-white"
+              ? "bg-brand text-white"
               : "border border-slate-200 text-slate-600 hover:bg-slate-100"
           }`}
         >

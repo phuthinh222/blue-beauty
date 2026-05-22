@@ -8,6 +8,7 @@ import { CreditCard, Copy, Check } from "lucide-react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { useLogout } from "@/hooks/use-logout";
+import { BRAND_COLOR } from "@/lib/config/theme";
 
 const BANK_INFO = {
   bankName: "Ngân Hàng Quân Đội MB",
@@ -39,7 +40,7 @@ function QRCode({ amount }: { amount: number }) {
           <rect key={i} x={x} y={38 + (i % 6) * 6} width="3" height="3" fill="black" />
         ))}
         {/* VNPay logo dot */}
-        <circle cx="50" cy="50" r="7" fill="#257CBA" />
+        <circle cx="50" cy="50" r="7" fill={BRAND_COLOR} />
         <rect x="46" y="48" width="8" height="4" rx="1" fill="white" />
       </svg>
     </div>
@@ -84,9 +85,9 @@ function ConfirmContent() {
 
       <div className="mx-auto max-w-xl px-4 py-3 sm:px-6">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Link href="/dashboard" className="hover:text-[#257CBA]">Trang chủ</Link>
+          <Link href="/dashboard" className="hover:text-brand">Trang chủ</Link>
           <span>›</span>
-          <Link href="/dashboard/checkout" className="hover:text-[#257CBA]">Thanh toán</Link>
+          <Link href="/dashboard/checkout" className="hover:text-brand">Thanh toán</Link>
           <span>›</span>
           <span className="font-medium text-slate-700">Xác nhận thanh toán</span>
         </nav>
@@ -95,8 +96,8 @@ function ConfirmContent() {
       <main className="mx-auto max-w-xl px-4 pb-16 sm:px-6">
         {/* Title */}
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="flex size-14 items-center justify-center rounded-2xl bg-[#257CBA]/10">
-            <CreditCard className="size-7 text-[#257CBA]" />
+          <div className="flex size-14 items-center justify-center rounded-2xl bg-brand/10">
+            <CreditCard className="size-7 text-brand" />
           </div>
           <h1 className="mt-3 text-xl font-bold text-slate-900">Xác nhận thanh toán</h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -157,7 +158,7 @@ function ConfirmContent() {
             </button>
             <button
               onClick={() => router.push("/dashboard")}
-              className="flex-1 rounded-xl bg-[#257CBA] py-2.5 text-sm font-semibold text-white transition hover:bg-[#1e6aa0]"
+              className="flex-1 rounded-xl bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
             >
               Hoàn tất
             </button>
@@ -174,7 +175,7 @@ function BankRow({ label, value, bold }: { label: string; value: string; bold?: 
   return (
     <div>
       <p className="text-xs text-slate-400">{label}</p>
-      <p className={`mt-0.5 text-sm ${bold ? "font-bold text-[#257CBA]" : "text-slate-800"}`}>{value}</p>
+      <p className={`mt-0.5 text-sm ${bold ? "font-bold text-brand" : "text-slate-800"}`}>{value}</p>
     </div>
   );
 }

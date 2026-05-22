@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { use, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/layout/site-header";
@@ -27,6 +28,7 @@ export default function ArtistProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const router = useRouter();
   const onLogout = useLogout();
   const artist = getArtistById(id);
 
@@ -51,11 +53,11 @@ export default function ArtistProfilePage({
 
       <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Link href="/dashboard" className="hover:text-[#257CBA]">
+          <Link href="/dashboard" className="hover:text-brand">
             Trang chủ
           </Link>
           <span>›</span>
-          <Link href="/dashboard/artists" className="hover:text-[#257CBA]">
+          <Link href="/dashboard/artists" className="hover:text-brand">
             Thợ trang điểm
           </Link>
           <span>›</span>
@@ -117,6 +119,7 @@ export default function ArtistProfilePage({
           services={artist.services}
           initialService={initialService}
           onClose={closeBooking}
+          onNavigateToCheckout={(params) => router.push(`/dashboard/checkout?${params.toString()}`)}
         />
       )}
 

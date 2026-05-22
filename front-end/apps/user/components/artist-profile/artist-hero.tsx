@@ -51,7 +51,7 @@ export function ArtistHero({
           </div>
           <button
             onClick={onBooking}
-            className="rounded-xl bg-[#257CBA] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1e6aa0]"
+            className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
           >
             Đặt lịch
           </button>

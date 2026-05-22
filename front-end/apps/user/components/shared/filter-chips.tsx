@@ -9,7 +9,7 @@ type FilterChipsProps = {
 export function FilterChips({ options, selected, onChange }: FilterChipsProps) {
   return (
     <div className="flex items-center gap-2">
-      <SlidersHorizontal className="size-4 shrink-0 text-[#257CBA]" />
+      <SlidersHorizontal className="size-4 shrink-0 text-brand" />
       <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {options.map((option) => (
           <button
@@ -17,8 +17,8 @@ export function FilterChips({ options, selected, onChange }: FilterChipsProps) {
             onClick={() => onChange(option)}
             className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition ${
               selected === option
-                ? "bg-[#257CBA] text-white"
-                : "border border-slate-200 text-slate-600 hover:border-[#257CBA] hover:text-[#257CBA]"
+                ? "bg-brand text-white"
+                : "border border-slate-200 text-slate-600 hover:border-brand hover:text-brand"
             }`}
           >
             {option}

@@ -1,7 +1,7 @@
 import { Phone, MessageCircle } from "lucide-react";
 
 const FAB =
-  "flex size-12 items-center justify-center rounded-full bg-[#257CBA] text-white shadow-lg ring-1 ring-black/5 transition hover:bg-[#1F6FA1] sm:size-14";
+  "flex size-12 items-center justify-center rounded-full bg-brand text-white shadow-lg ring-1 ring-black/5 transition hover:bg-brand-dark sm:size-14";
 
 export function FloatingActions() {
   return (

@@ -51,7 +51,7 @@ export function PortfolioLightbox({ item, onClose }: PortfolioLightboxProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 px-8 py-5">
           <div className="flex items-center gap-2">
-            <h3 className="text-xl font-semibold text-[#257CBA]">{item.label}</h3>
+            <h3 className="text-xl font-semibold text-brand">{item.label}</h3>
             <span className="text-base text-slate-400">
               ({item.images.length} ảnh)
             </span>
@@ -103,7 +103,7 @@ export function PortfolioLightbox({ item, onClose }: PortfolioLightboxProps) {
                   key={i}
                   onClick={() => setPage(i)}
                   className={`size-2.5 rounded-full transition ${
-                    i === page ? "bg-[#257CBA] scale-125" : "bg-slate-300 hover:bg-slate-400"
+                    i === page ? "bg-brand scale-125" : "bg-slate-300 hover:bg-slate-400"
                   }`}
                 />
               ))}

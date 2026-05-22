@@ -23,7 +23,7 @@ export function ArtistBio({ bio, bookingArea, workPrinciples }: ArtistBioProps) 
         <ul className="mt-2 space-y-1.5">
           {workPrinciples.map((principle, index) => (
             <li key={index} className="flex items-start gap-2 text-sm text-slate-700">
-              <span className="mt-1 size-1.5 shrink-0 rounded-full bg-[#257CBA]" />
+              <span className="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />
               {principle}
             </li>
           ))}

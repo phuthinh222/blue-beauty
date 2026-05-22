@@ -20,7 +20,7 @@ export function CtaSection() {
           Tham gia cộng đồng BlueBeauty và nhận booking job ngay hôm nay
         </p>
         <Link href="/register">
-          <Button className="mt-6 h-10 rounded-lg bg-[#257CBA] px-8 text-sm font-semibold text-white hover:bg-[#1F6FA1]">
+          <Button className="mt-6 h-10 rounded-lg bg-brand px-8 text-sm font-semibold text-white hover:bg-brand-dark">
             Đăng ký
           </Button>
         </Link>

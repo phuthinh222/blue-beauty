@@ -17,7 +17,7 @@ const FEATURES = [
     title: "Tích điểm",
     desc: "Nhận thưởng cho mọi đơn hàng và hoạt động thành công",
     btnLabel: "Ưu đãi đặc biệt khi tích điểm",
-    btnColor: "bg-[#257CBA] hover:bg-[#1e6aa0]",
+    btnColor: "bg-brand hover:bg-brand-dark",
   },
   {
     step: 2,
@@ -80,7 +80,7 @@ function FeatureCard({
 }: (typeof FEATURES)[0]) {
   return (
     <div className="flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-      <div className="flex size-12 items-center justify-center rounded-full bg-[#257CBA] text-lg font-bold text-white">
+      <div className="flex size-12 items-center justify-center rounded-full bg-brand text-lg font-bold text-white">
         {step}
       </div>
       <h3 className="mt-4 text-base font-bold text-slate-900">{title}</h3>
@@ -124,7 +124,7 @@ export default function PromotionsPage() {
       {/* Breadcrumb */}
       <div className="mx-auto max-w-4xl px-4 py-3 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Link href="/dashboard" className="hover:text-[#257CBA]">Trang chủ</Link>
+          <Link href="/dashboard" className="hover:text-brand">Trang chủ</Link>
           <span>›</span>
           <span className="font-medium text-slate-700">Khuyến mãi</span>
         </nav>
@@ -136,7 +136,7 @@ export default function PromotionsPage() {
 
         {/* Tính năng voucher */}
         <section>
-          <h2 className="mb-6 text-center text-xl font-bold text-[#257CBA]">
+          <h2 className="mb-6 text-center text-xl font-bold text-brand">
             Các tính năng của Voucher
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -148,7 +148,7 @@ export default function PromotionsPage() {
 
         {/* Đổi điểm thưởng */}
         <section>
-          <h2 className="mb-6 text-center text-xl font-bold text-[#257CBA]">
+          <h2 className="mb-6 text-center text-xl font-bold text-brand">
             Đổi điểm thưởng
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

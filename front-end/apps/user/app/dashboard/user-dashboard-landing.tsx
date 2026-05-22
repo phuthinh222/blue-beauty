@@ -84,8 +84,8 @@ function BenefitCard({
   imageAlt: string;
   decorSrc: string;
 }) {
-  const accentText = accent === "blue" ? "text-[#257CBA]" : "text-pink-500";
-  const accentBorder = accent === "blue" ? "border-[#257CBA]" : "border-pink-500";
+  const accentText = accent === "blue" ? "text-brand" : "text-pink-500";
+  const accentBorder = accent === "blue" ? "border-brand" : "border-pink-500";
   const accentBg = accent === "blue" ? "bg-[#2aa2d8]" : "bg-pink-500";
 
   return (

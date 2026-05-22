@@ -21,9 +21,9 @@ export function ConceptSubPage({ title, breadcrumbLabel, artists, onLogout }: Co
 
       <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Link href="/dashboard" className="hover:text-[#257CBA]">Trang chủ</Link>
+          <Link href="/dashboard" className="hover:text-brand">Trang chủ</Link>
           <span>›</span>
-          <Link href="/dashboard/concept" className="hover:text-[#257CBA]">Concept</Link>
+          <Link href="/dashboard/concept" className="hover:text-brand">Concept</Link>
           <span>›</span>
           <span className="font-medium text-slate-700">{breadcrumbLabel}</span>
         </nav>

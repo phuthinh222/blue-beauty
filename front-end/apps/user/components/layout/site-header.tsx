@@ -7,30 +7,7 @@ import Link from "next/link";
 import logoAsset from "@repo/assets/logo.png";
 import { Button } from "@repo/ui/button";
 
-const ROYAL_BLUE = "bg-[#257CBA] hover:bg-[#1F6FA1]";
-
-const CONCEPT_ITEMS = [
-  {
-    title: "Sự kiện",
-    href: "/dashboard/concept/event",
-    desc: "Cho những khoảnh khắc đặc biệt, dịch vụ makeup sự kiện của chúng tôi sẽ biến bạn thành trung tâm của sự chú ý",
-  },
-  {
-    title: "Du lịch",
-    href: "/dashboard/concept/travel",
-    desc: "Chúng tôi mang đến dịch vụ makeup du lịch hoàn hảo, giúp bạn luôn rạng rỡ trong những khoảnh khắc đáng nhớ",
-  },
-  {
-    title: "Hằng ngày",
-    href: "/dashboard/concept/daily",
-    desc: "Dịch vụ makeup hằng ngày của chúng tôi mang đến cho bạn vẻ đẹp tự nhiên và sự tự tin trong từng khoảnh khắc",
-  },
-  {
-    title: "Chụp ảnh",
-    href: "/dashboard/concept/photography",
-    desc: "Đảm bảo bạn tỏa sáng trong mọi khung hình với dịch vụ makeup chụp ảnh chuyên nghiệp của chúng tôi",
-  },
-];
+import { CONCEPT_ITEMS } from "@/lib/config/navigation";
 
 function ConceptDropdown() {
   const [open, setOpen] = React.useState(false);
@@ -50,7 +27,7 @@ function ConceptDropdown() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className={`cursor-pointer text-sm font-medium transition-colors hover:text-[#257CBA] ${open ? "text-[#257CBA]" : "text-slate-700"}`}
+        className={`cursor-pointer text-sm font-medium transition-colors hover:text-brand ${open ? "text-brand" : "text-slate-700"}`}
       >
         Concept
       </button>
@@ -65,13 +42,11 @@ function ConceptDropdown() {
                 onClick={() => setOpen(false)}
                 className="group cursor-pointer text-left"
               >
-                <p className="flex items-center gap-1 text-sm font-bold text-slate-900 group-hover:text-[#257CBA]">
+                <p className="flex items-center gap-1 text-sm font-bold text-slate-900 group-hover:text-brand">
                   {item.title}
-                  <span className="text-[#257CBA]">›</span>
+                  <span className="text-brand">›</span>
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                  {item.desc}
-                </p>
+                <p className="mt-1 text-xs leading-relaxed text-slate-500">{item.desc}</p>
               </Link>
             ))}
           </div>
@@ -86,41 +61,21 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/dashboard" className="flex shrink-0 items-center gap-2">
-          <Image
-            src={logoAsset}
-            alt="BlueBeauty"
-            width={140}
-            height={40}
-            className="h-9 w-auto sm:h-10"
-            priority
-          />
-          <Image
-            src="/images/blue-beauty.png"
-            alt="Blue Beauty"
-            width={120}
-            height={40}
-            className="h-8 w-auto sm:h-9"
-            priority
-          />
+          <Image src={logoAsset} alt="BlueBeauty" width={140} height={40} className="h-9 w-auto sm:h-10" priority />
+          <Image src="/images/blue-beauty.png" alt="Blue Beauty" width={120} height={40} className="h-8 w-auto sm:h-9" priority />
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
           <ConceptDropdown />
-          <Link href="/dashboard/artists" className="hover:text-[#257CBA]">
-            Thợ trang điểm
-          </Link>
-          <Link href="/dashboard/promotions" className="hover:text-[#257CBA]">
-            Khuyến mãi
-          </Link>
-          <a href="#try-on" className="hover:text-[#257CBA]">
-            Try on makeup
-          </a>
+          <Link href="/dashboard/artists" className="hover:text-brand">Thợ trang điểm</Link>
+          <Link href="/dashboard/promotions" className="hover:text-brand">Khuyến mãi</Link>
+          <a href="#try-on" className="hover:text-brand">Try on makeup</a>
         </nav>
 
         {onLogout ? (
           <Button
             type="button"
-            className={`h-9 shrink-0 rounded-lg px-3 text-sm font-semibold text-white sm:px-4 ${ROYAL_BLUE}`}
+            className="h-9 shrink-0 rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-dark sm:px-4"
             onClick={onLogout}
           >
             Đăng xuất
@@ -129,7 +84,7 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
           <Link href="/login">
             <Button
               type="button"
-              className={`h-9 shrink-0 rounded-lg px-3 text-sm font-semibold text-white sm:px-4 ${ROYAL_BLUE}`}
+              className="h-9 shrink-0 rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-dark sm:px-4"
             >
               Đăng nhập
             </Button>
@@ -140,10 +95,10 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
       {/* Mobile nav */}
       <div className="border-t border-slate-100 px-4 py-2 md:hidden">
         <nav className="flex gap-4 overflow-x-auto pb-1 text-xs font-medium text-slate-600 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <a href="#concept" className="shrink-0 hover:text-[#257CBA]">Concept</a>
-          <Link href="/dashboard/artists" className="shrink-0 hover:text-[#257CBA]">Thợ trang điểm</Link>
-          <Link href="/dashboard/promotions" className="shrink-0 hover:text-[#257CBA]">Khuyến mãi</Link>
-          <a href="#try-on" className="shrink-0 hover:text-[#257CBA]">Try on makeup</a>
+          <a href="#concept" className="shrink-0 hover:text-brand">Concept</a>
+          <Link href="/dashboard/artists" className="shrink-0 hover:text-brand">Thợ trang điểm</Link>
+          <Link href="/dashboard/promotions" className="shrink-0 hover:text-brand">Khuyến mãi</Link>
+          <a href="#try-on" className="shrink-0 hover:text-brand">Try on makeup</a>
         </nav>
       </div>
     </header>
