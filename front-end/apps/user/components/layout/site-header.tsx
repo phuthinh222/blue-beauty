@@ -99,7 +99,7 @@ function UserMenu({ user, onLogout }: UserMenuProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-48 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+        <div className="absolute right-0 top-full mt-3.5 w-48 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
           <Link
             href="/dashboard/users"
             onClick={() => setOpen(false)}

@@ -13,10 +13,12 @@ import { FilterChips } from "@/components/shared/filter-chips";
 import { Pagination } from "@/components/shared/pagination";
 import { ArtistCard } from "@/components/concept/artist-card";
 import { useAuth } from "@/hooks/use-auth";
+import { useFavorites } from "@/hooks/use-favorites";
 import { ALL_ARTISTS, DISTRICTS, TIME_SESSIONS, PAGE_SIZE } from "./data";
 
 export default function ArtistsPage() {
   const { isLoggedIn, user, onLogout } = useAuth();
+  const { isFavorited, toggleFavorite } = useFavorites();
 
   const [district, setDistrict] = useState("Tất cả");
   const [session,  setSession]  = useState("Tất cả");
@@ -74,6 +76,8 @@ export default function ArtistsPage() {
                     artist={artist}
                     imageAspect="aspect-[3/4]"
                     compact
+                    isFavorited={artist.id ? isFavorited(artist.id) : false}
+                    onToggleFavorite={artist.id ? () => toggleFavorite(artist.id!) : undefined}
                   />
                 ))}
               </div>

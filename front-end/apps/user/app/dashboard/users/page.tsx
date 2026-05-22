@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { User, ListOrdered, Lock, Heart, LogOut, Camera, Eye, EyeOff } from "lucide-react";
 
@@ -24,10 +24,19 @@ const TABS = [
 
 /* ─── Tab: Cập nhật thông tin ────────────────────────────────── */
 function ProfileTab({ displayName, username }: { displayName: string; username: string }) {
-  const [name, setName]   = useState(displayName);
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [name, setName]         = useState(displayName);
+  const [phone, setPhone]       = useState("");
+  const [email, setEmail]       = useState("");
+  const [saved, setSaved]       = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function onAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setAvatarSrc(url);
+  }
 
   function onSave(e: React.FormEvent) {
     e.preventDefault();
@@ -41,14 +50,26 @@ function ProfileTab({ displayName, username }: { displayName: string; username: 
       <div className="flex flex-col items-center gap-3 py-2">
         <div className="relative">
           <div className="flex size-20 items-center justify-center overflow-hidden rounded-full bg-brand text-3xl font-bold text-white">
-            {name.charAt(0).toUpperCase()}
+            {avatarSrc ? (
+              <Image src={avatarSrc} alt="avatar" fill className="object-cover" />
+            ) : (
+              name.charAt(0).toUpperCase()
+            )}
           </div>
           <button
             type="button"
-            className="absolute bottom-0 right-0 flex size-7 items-center justify-center rounded-full border-2 border-white bg-brand shadow"
+            onClick={() => fileInputRef.current?.click()}
+            className="absolute bottom-0 right-0 flex size-7 cursor-pointer items-center justify-center rounded-full border-2 border-white bg-brand shadow hover:bg-brand-dark"
           >
             <Camera className="size-3.5 text-white" />
           </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onAvatarChange}
+          />
         </div>
         <p className="text-xs text-slate-400">Nhấn vào biểu tượng để thay ảnh</p>
       </div>
@@ -286,7 +307,7 @@ export default function UserProfilePage() {
     <div className="min-h-dvh bg-slate-50">
       <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} user={user} />
 
-      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-360 px-4 py-8 sm:px-6 lg:px-8">
         <h1 className="mb-6 text-xl font-bold text-slate-900">Tài khoản của tôi</h1>
 
         <div className="flex flex-col gap-6 md:flex-row md:items-start">

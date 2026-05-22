@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 
 export type Artist = {
   id?: string;
@@ -16,10 +16,14 @@ export function ArtistCard({
   artist,
   imageAspect = "aspect-square",
   compact = false,
+  isFavorited = false,
+  onToggleFavorite,
 }: {
   artist: Artist;
   imageAspect?: string;
   compact?: boolean;
+  isFavorited?: boolean;
+  onToggleFavorite?: () => void;
 }) {
   const card = (
     <div className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md">
@@ -35,6 +39,15 @@ export function ArtistCard({
         <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <span className="text-sm font-semibold text-white">Xem hồ sơ</span>
         </div>
+        {onToggleFavorite && (
+          <button
+            type="button"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggleFavorite(); }}
+            className="absolute right-2 top-2 flex size-7 items-center justify-center rounded-full bg-white/80 shadow backdrop-blur-sm transition hover:bg-white"
+          >
+            <Heart className={`size-3.5 transition ${isFavorited ? "fill-red-500 text-red-500" : "text-slate-500"}`} />
+          </button>
+        )}
       </div>
 
       {compact ? (

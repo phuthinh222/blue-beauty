@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Heart } from "lucide-react";
 import { StarRating } from "./star-rating";
 
 type ArtistHeroProps = {
@@ -9,6 +10,8 @@ type ArtistHeroProps = {
   coverPhoto: string;
   avatar: string;
   onBooking?: () => void;
+  isFavorited?: boolean;
+  onToggleFavorite?: () => void;
 };
 
 export function ArtistHero({
@@ -19,6 +22,8 @@ export function ArtistHero({
   coverPhoto,
   avatar,
   onBooking,
+  isFavorited = false,
+  onToggleFavorite,
 }: ArtistHeroProps) {
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -49,12 +54,26 @@ export function ArtistHero({
               <span className="text-sm font-medium text-slate-700">{rating.toFixed(1)}</span>
             </div>
           </div>
-          <button
-            onClick={onBooking}
-            className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
-          >
-            Đặt lịch
-          </button>
+          <div className="flex items-center gap-2">
+            {onToggleFavorite && (
+              <button
+                onClick={onToggleFavorite}
+                className={`flex size-10 items-center justify-center rounded-xl border transition ${
+                  isFavorited
+                    ? "border-red-300 bg-red-50 text-red-500 hover:bg-red-100"
+                    : "border-slate-200 bg-white text-slate-400 hover:border-red-300 hover:text-red-500"
+                }`}
+              >
+                <Heart className={`size-5 transition ${isFavorited ? "fill-red-500" : ""}`} />
+              </button>
+            )}
+            <button
+              onClick={onBooking}
+              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            >
+              Đặt lịch
+            </button>
+          </div>
         </div>
       </div>
     </div>

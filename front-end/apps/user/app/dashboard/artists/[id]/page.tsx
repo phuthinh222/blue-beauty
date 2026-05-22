@@ -20,6 +20,7 @@ import { BookingModal } from "@/components/artist-profile/booking-modal";
 import type { ArtistService } from "@/components/artist-profile/types";
 import type { TabId } from "@/components/artist-profile/profile-tabs";
 import { useAuth } from "@/hooks/use-auth";
+import { useFavorites } from "@/hooks/use-favorites";
 import { hasStoredToken } from "@/lib/auth";
 import { getArtistById } from "./data";
 
@@ -32,6 +33,7 @@ export default function ArtistProfilePage({
   const router = useRouter();
   const pathname = usePathname();
   const { isLoggedIn, user, onLogout } = useAuth();
+  const { isFavorited, toggleFavorite } = useFavorites();
   const artist = getArtistById(id);
 
   const [activeTab, setActiveTab] = useState<TabId>("intro");
@@ -81,6 +83,8 @@ export default function ArtistProfilePage({
           coverPhoto={artist.coverPhoto}
           avatar={artist.avatar}
           onBooking={() => openBooking()}
+          isFavorited={isFavorited(id)}
+          onToggleFavorite={() => toggleFavorite(id)}
         />
 
         {/* Stats + tabs — một card thống nhất */}
