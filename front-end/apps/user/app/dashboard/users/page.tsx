@@ -87,48 +87,83 @@ function ProfileTab({ displayName, username }: { displayName: string; username: 
 }
 
 /* ─── Tab: Lịch sử đặt lịch ─────────────────────────────────── */
-const MOCK_BOOKINGS = [
-  { id: "1", artist: "Ngọc Trâm",    concept: "Trang điểm cô dâu",   date: "2025-06-10", time: "08:00", status: "confirmed",  price: 1500000 },
-  { id: "2", artist: "Khánh Vân",    concept: "Trang điểm sự kiện",  date: "2025-05-20", time: "09:30", status: "completed",  price: 600000 },
-  { id: "3", artist: "Nguyệt Minh",  concept: "Trang điểm chụp ảnh", date: "2025-04-15", time: "10:00", status: "cancelled",  price: 700000 },
-];
-
-const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
-  confirmed: { label: "Đã xác nhận", cls: "bg-blue-50 text-blue-700 border-blue-200" },
-  completed: { label: "Hoàn thành",  cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  cancelled: { label: "Đã huỷ",      cls: "bg-red-50 text-red-600 border-red-200" },
+type Booking = {
+  id: string;
+  artist: string;
+  location: string;
+  bookedAt: string;
+  appointmentAt: string;
+  concept: string;
+  status: "pending" | "confirmed" | "completed" | "cancelled";
+  price: number;
 };
 
-function BookingsTab() {
-  if (MOCK_BOOKINGS.length === 0) {
-    return (
-      <div className="flex flex-col items-center py-16 text-center">
-        <ListOrdered className="size-12 text-slate-200" />
-        <p className="mt-3 text-sm font-medium text-slate-500">Bạn chưa có lịch đặt nào</p>
-      </div>
-    );
-  }
+const MOCK_BOOKINGS: Booking[] = [
+  { id: "1", artist: "Ngọc Trâm",   location: "Quận Liên Chiểu", bookedAt: "11/11/2024 10:00", appointmentAt: "12/11/2024 10:00", concept: "Sự kiện", status: "pending",   price: 299000 },
+  { id: "2", artist: "N.T.Mỹ Hạnh", location: "Quận Hải Châu",  bookedAt: "12/11/2024 10:00", appointmentAt: "13/11/2024 10:00", concept: "Sự kiện", status: "pending",   price: 249000 },
+  { id: "3", artist: "Khánh Vân",   location: "Quận Hải Châu",  bookedAt: "01/12/2024 09:00", appointmentAt: "05/12/2024 09:00", concept: "Cô dâu",  status: "completed", price: 1500000 },
+];
 
+const STATUS_CONFIG: Record<Booking["status"], { label: string; cls: string }> = {
+  pending:   { label: "Đang chờ",   cls: "border-slate-300 text-slate-600" },
+  confirmed: { label: "Đã xác nhận", cls: "border-brand text-brand" },
+  completed: { label: "Hoàn thành", cls: "border-emerald-500 text-emerald-600" },
+  cancelled: { label: "Đã huỷ",     cls: "border-red-400 text-red-500" },
+};
+
+const TABLE_HEADERS = [
+  "Thợ trang điểm", "Địa điểm", "Thời gian đặt lịch",
+  "Thời gian cuộc hẹn", "Concept", "Trạng thái", "Tổng tiền",
+];
+
+function BookingsTab() {
   return (
-    <div className="space-y-3">
-      {MOCK_BOOKINGS.map((b) => {
-        const s = STATUS_LABEL[b.status];
-        return (
-          <div key={b.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-sm font-semibold text-slate-900">{b.artist}</p>
-                <p className="text-xs text-slate-500">{b.concept}</p>
-                <p className="mt-1 text-xs text-slate-400">{b.date} · {b.time}</p>
-              </div>
-              <div className="flex flex-col items-end gap-1.5">
-                <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${s.cls}`}>{s.label}</span>
-                <span className="text-sm font-bold text-brand">{b.price.toLocaleString("vi-VN")}đ</span>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+    <div className="overflow-hidden rounded-xl border border-slate-200">
+      {/* Blue title bar */}
+      <div className="bg-brand px-5 py-3.5">
+        <h3 className="text-sm font-semibold text-white">Lịch sử đặt lịch</h3>
+      </div>
+
+      {MOCK_BOOKINGS.length === 0 ? (
+        <div className="flex flex-col items-center py-16 text-center">
+          <ListOrdered className="size-12 text-slate-200" />
+          <p className="mt-3 text-sm text-slate-500">Bạn chưa có lịch đặt nào</p>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-100 bg-white">
+                {TABLE_HEADERS.map((h) => (
+                  <th key={h} className="whitespace-nowrap px-4 py-3 text-left text-xs font-semibold text-slate-500">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {MOCK_BOOKINGS.map((b, i) => {
+                const s = STATUS_CONFIG[b.status];
+                return (
+                  <tr key={b.id} className={`border-b border-slate-100 last:border-0 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/50"}`}>
+                    <td className="whitespace-nowrap px-4 py-3.5 font-medium text-slate-800">{b.artist}</td>
+                    <td className="whitespace-nowrap px-4 py-3.5 text-slate-600">{b.location}</td>
+                    <td className="whitespace-nowrap px-4 py-3.5 text-slate-600">{b.bookedAt}</td>
+                    <td className="whitespace-nowrap px-4 py-3.5 text-slate-600">{b.appointmentAt}</td>
+                    <td className="whitespace-nowrap px-4 py-3.5 text-slate-600">{b.concept}</td>
+                    <td className="whitespace-nowrap px-4 py-3.5">
+                      <span className={`rounded border px-3 py-1 text-xs font-medium ${s.cls}`}>{s.label}</span>
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-3.5 font-semibold text-slate-800">
+                      {b.price.toLocaleString("vi-VN")}đ
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -287,11 +322,17 @@ export default function UserProfilePage() {
           </aside>
 
           {/* Content */}
-          <section className="flex-1 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-5 text-base font-bold text-slate-900">
-              {TABS.find((t) => t.id === activeTab)?.label}
-            </h2>
-            {tabContent[activeTab]}
+          <section className="flex-1 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            {activeTab !== "bookings" && (
+              <div className="border-b border-slate-100 px-6 py-4">
+                <h2 className="text-base font-bold text-slate-900">
+                  {TABS.find((t) => t.id === activeTab)?.label}
+                </h2>
+              </div>
+            )}
+            <div className={activeTab !== "bookings" ? "p-6" : ""}>
+              {tabContent[activeTab]}
+            </div>
           </section>
         </div>
       </main>
