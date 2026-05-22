@@ -143,7 +143,7 @@ export function SiteHeader({ onLogout, user }: SiteHeaderProps) {
           <ConceptDropdown />
           <Link href="/dashboard/artists" className="hover:text-brand">Thợ trang điểm</Link>
           <Link href="/dashboard/promotions" className="hover:text-brand">Khuyến mãi</Link>
-          <a href="#try-on" className="hover:text-brand">Try on makeup</a>
+          <Link href="/dashboard/try-on" className="hover:text-brand">Try on makeup</Link>
         </nav>
 
         {isLoggedIn && onLogout ? (
@@ -177,7 +177,7 @@ export function SiteHeader({ onLogout, user }: SiteHeaderProps) {
           <a href="#concept" className="shrink-0 hover:text-brand">Concept</a>
           <Link href="/dashboard/artists" className="shrink-0 hover:text-brand">Thợ trang điểm</Link>
           <Link href="/dashboard/promotions" className="shrink-0 hover:text-brand">Khuyến mãi</Link>
-          <a href="#try-on" className="shrink-0 hover:text-brand">Try on makeup</a>
+          <Link href="/dashboard/try-on" className="shrink-0 hover:text-brand">Try on makeup</Link>
         </nav>
       </div>
     </header>
