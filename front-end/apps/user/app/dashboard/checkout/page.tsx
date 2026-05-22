@@ -6,11 +6,11 @@ import { CalendarDays } from "lucide-react";
 
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { useLogout } from "@/hooks/use-logout";
+import { useAuth } from "@/hooks/use-auth";
 import { useCheckoutParams, useVoucher, useCheckoutNavigation } from "@/hooks/use-checkout";
 
 function CheckoutContent() {
-  const onLogout = useLogout();
+  const { isLoggedIn, user, onLogout } = useAuth();
   const { artist, concept, price, date, time, location, bookedAt, note: initialNote } = useCheckoutParams();
   const { voucher, setVoucher, discount, applyVoucher } = useVoucher(price);
   const { goToConfirm } = useCheckoutNavigation();
@@ -23,7 +23,7 @@ function CheckoutContent() {
 
   return (
     <div className="min-h-dvh bg-slate-50">
-      <SiteHeader onLogout={onLogout} />
+      <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} user={user} />
 
       <div className="mx-auto max-w-xl px-4 py-3 sm:px-6">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">

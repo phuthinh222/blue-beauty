@@ -1,6 +1,6 @@
 "use client";
 
-import { useLogout } from "@/hooks/use-logout";
+import { useAuth } from "@/hooks/use-auth";
 import { ConceptSubPage } from "@/components/concept/concept-sub-page";
 import type { Artist } from "@/components/concept/artist-card";
 
@@ -11,13 +11,14 @@ const ARTISTS: Artist[] = [
 ];
 
 export default function PhotographyPage() {
-  const onLogout = useLogout();
+  const { isLoggedIn, user, onLogout } = useAuth();
   return (
     <ConceptSubPage
       title="Top thợ trang điểm chụp ảnh nổi bật"
       breadcrumbLabel="Chụp ảnh"
       artists={ARTISTS}
-      onLogout={onLogout}
+      onLogout={isLoggedIn ? onLogout : undefined}
+      user={user}
     />
   );
 }

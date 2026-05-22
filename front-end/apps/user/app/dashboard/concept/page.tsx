@@ -8,7 +8,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SectionTitle } from "@/components/shared/section-title";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FloatingActions } from "@/components/shared/floating-actions";
-import { useLogout } from "@/hooks/use-logout";
+import { useAuth } from "@/hooks/use-auth";
 
 const CONCEPTS = [
   {
@@ -38,11 +38,11 @@ const CONCEPTS = [
 ];
 
 export default function ConceptPage() {
-  const onLogout = useLogout();
+  const { isLoggedIn, user, onLogout } = useAuth();
 
   return (
     <div className="min-h-dvh bg-white pb-16 md:pb-0">
-      <SiteHeader onLogout={onLogout} />
+      <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} user={user} />
 
       <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">

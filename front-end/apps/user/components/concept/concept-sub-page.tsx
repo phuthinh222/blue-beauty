@@ -6,18 +6,20 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { CtaSection } from "@/components/shared/cta-section";
 import { FloatingActions } from "@/components/shared/floating-actions";
 import { ArtistCard, type Artist } from "@/components/concept/artist-card";
+import type { UserProfile } from "@/lib/auth";
 
 type ConceptSubPageProps = {
   title: string;
   breadcrumbLabel: string;
   artists: Artist[];
-  onLogout: () => void;
+  onLogout?: () => void;
+  user?: UserProfile | null;
 };
 
-export function ConceptSubPage({ title, breadcrumbLabel, artists, onLogout }: ConceptSubPageProps) {
+export function ConceptSubPage({ title, breadcrumbLabel, artists, onLogout, user }: ConceptSubPageProps) {
   return (
     <div className="min-h-dvh bg-white pb-16 md:pb-0">
-      <SiteHeader onLogout={onLogout} />
+      <SiteHeader onLogout={onLogout} user={user} />
 
       <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">

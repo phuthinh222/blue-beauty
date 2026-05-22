@@ -7,7 +7,7 @@ import { Check } from "lucide-react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingActions } from "@/components/shared/floating-actions";
-import { useLogout } from "@/hooks/use-logout";
+import { useAuth } from "@/hooks/use-auth";
 
 /* ─── Data ───────────────────────────────────────────────────── */
 
@@ -115,11 +115,11 @@ function VoucherCard({ label, color, items }: (typeof VOUCHERS)[0]) {
 /* ─── Page ───────────────────────────────────────────────────── */
 
 export default function PromotionsPage() {
-  const onLogout = useLogout();
+  const { isLoggedIn, user, onLogout } = useAuth();
 
   return (
     <div className="min-h-dvh bg-white pb-16 md:pb-0">
-      <SiteHeader onLogout={onLogout} />
+      <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} user={user} />
 
       {/* Breadcrumb */}
       <div className="mx-auto max-w-4xl px-4 py-3 sm:px-6 lg:px-8">
