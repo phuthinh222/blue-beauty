@@ -81,14 +81,25 @@ export function SiteHeader({ onLogout }: { onLogout?: () => void }) {
             Đăng xuất
           </Button>
         ) : (
-          <Link href="/login">
-            <Button
-              type="button"
-              className="h-9 shrink-0 rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-dark sm:px-4"
-            >
-              Đăng nhập
-            </Button>
-          </Link>
+          <div className="flex shrink-0 items-center gap-2">
+            <Link href="/register">
+              <Button
+                type="button"
+                variant="outline"
+                className="h-9 cursor-pointer rounded-lg border-brand px-3 text-sm font-semibold text-brand hover:bg-brand/5 sm:px-4"
+              >
+                Đăng ký
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button
+                type="button"
+                className="h-9 cursor-pointer rounded-lg bg-brand px-3 text-sm font-semibold text-white hover:bg-brand-dark sm:px-4"
+              >
+                Đăng nhập
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
 

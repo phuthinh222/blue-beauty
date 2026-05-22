@@ -21,9 +21,9 @@ const SLIDES = [
 ];
 
 const FEATURED_ARTISTS = [
-  { name: "Khánh Vân", district: "Hải Châu", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup1.jpg", avatar: "/images/avatar.png" },
-  { name: "Nguyệt Minh", district: "Ngã Hành Sơn", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup2.jpg", avatar: "/images/avatar.png" },
-  { name: "Hà Minh Phương", district: "Thanh Khê", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup5.jpg", avatar: "/images/avatar.png" },
+  { id: "khanh-van",      name: "Khánh Vân",      district: "Hải Châu",     city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup1.jpg", avatar: "/images/avatar.png" },
+  { id: "nguyet-minh",   name: "Nguyệt Minh",    district: "Ngũ Hành Sơn", city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup2.jpg", avatar: "/images/avatar.png" },
+  { id: "ha-minh-phuong", name: "Hà Minh Phương", district: "Thanh Khê",    city: "Đà Nẵng", rating: 5.0, photo: "/images/makeup5.jpg", avatar: "/images/avatar.png" },
 ];
 
 const CATEGORIES = [
