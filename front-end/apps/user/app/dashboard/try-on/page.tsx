@@ -121,18 +121,19 @@ function TryOnCanvas({
 
   return (
     <div className="relative aspect-square w-full overflow-hidden bg-black">
-      {/* Camera video (hidden — canvas is the display) */}
+      {/* Video must NOT use display:none — browsers skip frame rendering */}
       <video
         ref={videoRef}
         autoPlay
         playsInline
         muted
-        className="absolute inset-0 hidden h-full w-full object-cover"
+        className="pointer-events-none absolute opacity-0"
+        style={{ width: 1, height: 1 }}
       />
 
       <canvas
         ref={canvasRef}
-        className={`absolute inset-0 h-full w-full object-contain ${mirrored && mode === "camera" ? "scale-x-[-1]" : ""}`}
+        className="absolute inset-0 h-full w-full object-contain"
       />
 
       {mode === "camera" && !cameraReady && (
@@ -164,34 +165,49 @@ export default function TryOnPage() {
   const [cameraError, setCameraError]     = useState(false);
   const [mirrored, setMirrored]           = useState(true);
 
-  const fileRef     = useRef<HTMLInputElement>(null);
-  const videoRef    = useRef<HTMLVideoElement>(null);
-  const canvasRef   = useRef<HTMLCanvasElement>(null);
-  const streamRef   = useRef<MediaStream | null>(null);
-  const rafRef      = useRef<number>(0);
+  const fileRef      = useRef<HTMLInputElement>(null);
+  const videoRef     = useRef<HTMLVideoElement>(null);
+  const canvasRef    = useRef<HTMLCanvasElement>(null);
+  const streamRef    = useRef<MediaStream | null>(null);
+  const rafRef       = useRef<number>(0);
+  /* Refs keep the loop stable — no need to recreate callback on every state change */
+  const colorRef     = useRef(selectedColor);
+  const mirroredRef  = useRef(mirrored);
 
-  /* ── Camera draw loop ───────────────────────── */
+  useEffect(() => { colorRef.current = selectedColor; }, [selectedColor]);
+  useEffect(() => { mirroredRef.current = mirrored; }, [mirrored]);
+
+  /* ── Stable draw loop — reads from refs, never stale ─── */
   const drawCameraFrame = useCallback(() => {
     const canvas = canvasRef.current;
     const video  = videoRef.current;
-    if (!canvas || !video || video.readyState < 2) {
-      rafRef.current = requestAnimationFrame(drawCameraFrame);
-      return;
+    if (!canvas || !video) return;
+
+    if (video.readyState >= 2 && video.videoWidth > 0) {
+      const W = video.videoWidth;
+      const H = video.videoHeight;
+      canvas.width  = W;
+      canvas.height = H;
+
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        if (mirroredRef.current) {
+          ctx.save();
+          ctx.translate(W, 0);
+          ctx.scale(-1, 1);
+          ctx.drawImage(video, 0, 0, W, H);
+          ctx.restore();
+          /* Apply color in normal coordinate space */
+          applyLipColor(ctx, W, H, colorRef.current);
+        } else {
+          ctx.drawImage(video, 0, 0, W, H);
+          applyLipColor(ctx, W, H, colorRef.current);
+        }
+      }
     }
 
-    const W = video.videoWidth;
-    const H = video.videoHeight;
-    canvas.width  = W;
-    canvas.height = H;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    ctx.drawImage(video, 0, 0, W, H);
-    applyLipColor(ctx, W, H, selectedColor);
-
     rafRef.current = requestAnimationFrame(drawCameraFrame);
-  }, [selectedColor]);
+  }, []); // no deps — reads everything from refs
 
   /* ── Start camera ───────────────────────────── */
   const startCamera = useCallback(async () => {
@@ -202,10 +218,13 @@ export default function TryOnPage() {
         video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 640 } },
       });
       streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.onloadeddata = () => {
+      const video = videoRef.current;
+      if (video) {
+        video.srcObject = stream;
+        video.oncanplay = () => {
+          void video.play();
           setCameraReady(true);
+          cancelAnimationFrame(rafRef.current);
           rafRef.current = requestAnimationFrame(drawCameraFrame);
         };
       }
@@ -230,14 +249,6 @@ export default function TryOnPage() {
     }
     return () => stopCamera();
   }, [mode, startCamera, stopCamera]);
-
-  /* Redraw when color changes in camera mode */
-  useEffect(() => {
-    if (mode === "camera" && cameraReady) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(drawCameraFrame);
-    }
-  }, [selectedColor, mode, cameraReady, drawCameraFrame]);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
