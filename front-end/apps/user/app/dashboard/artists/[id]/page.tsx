@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { use, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/layout/site-header";
@@ -19,7 +19,8 @@ import { ProfileTabs } from "@/components/artist-profile/profile-tabs";
 import { BookingModal } from "@/components/artist-profile/booking-modal";
 import type { ArtistService } from "@/components/artist-profile/types";
 import type { TabId } from "@/components/artist-profile/profile-tabs";
-import { useLogout } from "@/hooks/use-logout";
+import { useAuth } from "@/hooks/use-auth";
+import { hasStoredToken } from "@/lib/auth";
 import { getArtistById } from "./data";
 
 export default function ArtistProfilePage({
@@ -29,7 +30,8 @@ export default function ArtistProfilePage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const onLogout = useLogout();
+  const pathname = usePathname();
+  const { isLoggedIn, onLogout } = useAuth();
   const artist = getArtistById(id);
 
   const [activeTab, setActiveTab] = useState<TabId>("intro");
@@ -37,6 +39,10 @@ export default function ArtistProfilePage({
   const [initialService, setInitialService] = useState<ArtistService | undefined>();
 
   const openBooking = (svc?: ArtistService) => {
+    if (!hasStoredToken()) {
+      router.push(`/login?next=${encodeURIComponent(pathname ?? "")}`);
+      return;
+    }
     setInitialService(svc);
     setShowBooking(true);
   };
@@ -49,7 +55,7 @@ export default function ArtistProfilePage({
 
   return (
     <div className="min-h-dvh bg-slate-50 pb-16 md:pb-0">
-      <SiteHeader onLogout={onLogout} />
+      <SiteHeader onLogout={isLoggedIn ? onLogout : undefined} />
 
       <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6">
         <nav className="flex items-center gap-1.5 text-xs text-slate-500">

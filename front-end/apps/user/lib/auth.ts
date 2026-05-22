@@ -20,6 +20,14 @@ export type UserMeResponse = {
 
 const USER_ACCESS_TOKEN_KEY = "user_access_token";
 
+export function hasStoredToken(): boolean {
+  if (typeof window === "undefined") return false;
+  return !!(
+    localStorage.getItem(USER_ACCESS_TOKEN_KEY) ||
+    sessionStorage.getItem(USER_ACCESS_TOKEN_KEY)
+  );
+}
+
 export function clearUserSession() {
   if (typeof window === "undefined") return;
   localStorage.removeItem(USER_ACCESS_TOKEN_KEY);

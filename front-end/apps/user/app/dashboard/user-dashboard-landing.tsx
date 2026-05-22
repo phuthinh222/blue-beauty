@@ -137,7 +137,7 @@ function BenefitCard({
   );
 }
 
-export function UserDashboardLanding({ onLogout }: { onLogout: () => void }) {
+export function UserDashboardLanding({ onLogout }: { onLogout?: () => void }) {
   const [current, setCurrent] = React.useState(0);
 
   React.useEffect(() => {

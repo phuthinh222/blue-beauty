@@ -1,22 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import { clearUserSession, logoutUser } from "@/lib/auth";
-
+import { useAuth } from "@/hooks/use-auth";
 import { UserDashboardLanding } from "./user-dashboard-landing";
 
 export default function UserDashboardPage() {
-  const router = useRouter();
+  const { isLoggedIn, onLogout } = useAuth();
 
-  async function onLogout() {
-    try {
-      await logoutUser();
-    } finally {
-      clearUserSession();
-      router.replace("/login");
-    }
-  }
-
-  return <UserDashboardLanding onLogout={onLogout} />;
+  return <UserDashboardLanding onLogout={isLoggedIn ? onLogout : undefined} />;
 }
