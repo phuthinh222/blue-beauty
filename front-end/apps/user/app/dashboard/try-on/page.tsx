@@ -7,6 +7,7 @@ import Link from "next/link";
 import {
   Camera, Upload, RotateCcw, Sparkles, Eye, Smile, Brush,
   CameraOff, FlipHorizontal, Loader2, CheckCircle2, AlertCircle,
+  ImageIcon,
 } from "lucide-react";
 
 import { SiteHeader }     from "@/components/layout/site-header";
@@ -82,11 +83,12 @@ export default function TryOnPage() {
   const { state: makeup, dispatch }    = useMakeupState();
 
   /* Media state */
-  const [mode, setMode]             = useState<"idle" | "photo" | "camera">("idle");
-  const [photoSrc, setPhotoSrc]     = useState<string | null>(null);
+  const [mode, setMode]               = useState<"idle" | "photo" | "camera">("idle");
+  const [photoSrc, setPhotoSrc]       = useState<string | null>(null);
   const [cameraReady, setCameraReady] = useState(false);
   const [cameraError, setCameraError] = useState(false);
-  const [mirrored, setMirrored]     = useState(true);
+  const [mirrored, setMirrored]       = useState(true);
+  const [captured, setCaptured]       = useState(false);
 
   /* Landmark & skin state */
   const [landmarks, setLandmarks]       = useState<{ x: number; y: number }[]>([]);
@@ -106,9 +108,11 @@ export default function TryOnPage() {
   const lmRef      = useRef<{ x: number; y: number }[]>([]);
   const makeupRef  = useRef(makeup);
   const mirrorRef  = useRef(mirrored);
+  const capturedRef = useRef(false);
 
   useEffect(() => { makeupRef.current = makeup; }, [makeup]);
   useEffect(() => { mirrorRef.current = mirrored; }, [mirrored]);
+  useEffect(() => { capturedRef.current = captured; }, [captured]);
 
   /* ── Redraw photo whenever makeup or landmarks change ─────── */
   useEffect(() => {
@@ -121,6 +125,8 @@ export default function TryOnPage() {
 
   /* ── Camera RAF loop ─────────────────────────────────────── */
   const cameraLoop = useCallback(() => {
+    /* Stop rendering when user has captured a still frame */
+    if (capturedRef.current) return;
     const canvas = canvasRef.current;
     const video  = videoRef.current;
     if (!canvas || !video || video.readyState < 2) {
@@ -183,10 +189,32 @@ export default function TryOnPage() {
     return stopCamera;
   }, [mode, startCamera, stopCamera]);
 
+  /* ── Capture still from camera ───────────────────────────── */
+  function handleCapture() {
+    /* capturedRef set → RAF loop will stop on next tick */
+    capturedRef.current = true;
+    setCaptured(true);
+    setFaceFound(null);
+    setLandmarks([]); lmRef.current = [];
+  }
+
+  function handleRetake() {
+    capturedRef.current = false;
+    setCaptured(false);
+    setFaceFound(null);
+    setLandmarks([]); lmRef.current = [];
+    /* Restart the RAF loop */
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(cameraLoop);
+  }
+
   /* ── Detect face ─────────────────────────────────────────── */
   async function handleDetect() {
     if (mpStatus !== "ready") return;
-    const source = mode === "camera" ? videoRef.current : imgRef.current;
+    /* In camera mode use canvas (frozen frame); in photo mode use img element */
+    const source = mode === "camera"
+      ? canvasRef.current
+      : imgRef.current;
     if (!source) return;
     setDetecting(true); setFaceFound(null);
     await new Promise(r => setTimeout(r, 50)); // let UI update
@@ -250,6 +278,7 @@ export default function TryOnPage() {
     setLandmarks([]); lmRef.current = [];
     setFaceFound(null); setSkinTone(null); setPalette(null);
     setCameraError(false);
+    capturedRef.current = false; setCaptured(false);
     dispatch({ type: "RESET" });
     if (fileRef.current) fileRef.current.value = "";
   }
@@ -337,9 +366,45 @@ export default function TryOnPage() {
                 </div>
               )}
 
+              {/* Shutter button — shown when camera live (not yet captured) */}
+              {mode === "camera" && cameraReady && !captured && (
+                <div className="absolute inset-x-0 bottom-5 flex flex-col items-center gap-2">
+                  <button
+                    onClick={handleCapture}
+                    className="flex size-16 items-center justify-center rounded-full border-4 border-white bg-white/20 shadow-lg backdrop-blur-sm transition hover:bg-white/30 active:scale-95"
+                  >
+                    <div className="size-12 rounded-full bg-white shadow" />
+                  </button>
+                  <span className="rounded-full bg-black/40 px-3 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+                    Chụp ảnh
+                  </span>
+                </div>
+              )}
+
+              {/* Captured overlay — retake hint */}
+              {mode === "camera" && captured && (
+                <div className="absolute inset-x-0 bottom-5 flex justify-center">
+                  <button
+                    onClick={handleRetake}
+                    className="flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-black/70"
+                  >
+                    <RotateCcw className="size-4" />
+                    Chụp lại
+                  </button>
+                </div>
+              )}
+
+              {/* Captured badge */}
+              {mode === "camera" && captured && (
+                <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-brand/80 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                  <ImageIcon className="size-3.5" />
+                  Đã chụp
+                </div>
+              )}
+
               {/* Face detection badge */}
               {faceFound !== null && (
-                <div className={`absolute left-3 top-3 flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium backdrop-blur-sm ${
+                <div className={`absolute right-3 top-3 flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium backdrop-blur-sm ${
                   faceFound ? "bg-emerald-500/80 text-white" : "bg-red-500/80 text-white"
                 }`}>
                   {faceFound ? <CheckCircle2 className="size-3.5" /> : <AlertCircle className="size-3.5" />}
@@ -356,19 +421,23 @@ export default function TryOnPage() {
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
               </label>
 
-              <button
-                onClick={() => setMode(mode === "camera" ? "idle" : "camera")}
-                className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-                  mode === "camera"
-                    ? "bg-slate-700 text-white hover:bg-slate-800"
-                    : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-                }`}
-              >
-                <Camera className="size-4" />
-                {mode === "camera" ? "Dừng camera" : "Selfie Mode"}
-              </button>
+              {/* Camera toggle — hide when captured (use Retake in overlay instead) */}
+              {!captured && (
+                <button
+                  onClick={() => setMode(mode === "camera" ? "idle" : "camera")}
+                  className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                    mode === "camera"
+                      ? "bg-slate-700 text-white hover:bg-slate-800"
+                      : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <Camera className="size-4" />
+                  {mode === "camera" ? "Dừng camera" : "Selfie Mode"}
+                </button>
+              )}
 
-              {mode === "camera" && (
+              {/* Mirror toggle — only when live camera */}
+              {mode === "camera" && !captured && (
                 <button
                   onClick={() => setMirrored(v => !v)}
                   className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
@@ -378,9 +447,23 @@ export default function TryOnPage() {
                 </button>
               )}
 
+              {/* Retake button in action bar when captured */}
+              {captured && (
+                <button
+                  onClick={handleRetake}
+                  className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                >
+                  <RotateCcw className="size-4" />
+                  Chụp lại
+                </button>
+              )}
+
               <button
                 onClick={handleDetect}
-                disabled={mode === "idle" || mpStatus !== "ready" || detecting}
+                disabled={
+                  mode === "idle" || mpStatus !== "ready" || detecting ||
+                  (mode === "camera" && !captured)
+                }
                 className="flex items-center gap-2 rounded-xl bg-pink-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-pink-700 disabled:opacity-40"
               >
                 {detecting ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
