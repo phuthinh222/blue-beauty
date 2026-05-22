@@ -4,9 +4,9 @@ import Link from "next/link";
 import logoAsset from "@repo/assets/logo.png";
 
 const FOOTER_LINKS = [
-  { label: "Concept", href: "#concept" },
-  { label: "Thợ trang điểm", href: "#artists" },
-  { label: "Khuyến mãi", href: "#promo" },
+  { label: "Concept", href: "/dashboard/concept" },
+  { label: "Thợ trang điểm", href: "/dashboard/artists" },
+  { label: "Khuyến mãi", href: "/dashboard/promotions" },
   { label: "Đăng ký", href: "/register" },
   { label: "Đăng nhập", href: "/login" },
 ];
@@ -57,10 +57,10 @@ export function SiteFooter() {
         <div className="grid gap-8 sm:grid-cols-3">
           {/* Logo + mô tả */}
           <div>
-            <div className="flex items-center gap-2">
+            <Link href="/dashboard" className="inline-flex items-center gap-2">
               <Image src={logoAsset} alt="BlueBeauty" className="h-10 w-auto" />
               <Image src="/images/blue-beauty.png" alt="Blue Beauty" width={120} height={40} className="h-9 w-auto" />
-            </div>
+            </Link>
             <p className="mt-3 text-sm leading-relaxed text-slate-500">
               BLUE là trang web hàng đầu tại Việt Nam về việc kết nối thợ trang điểm chuyên nghiệp với khách hàng
             </p>

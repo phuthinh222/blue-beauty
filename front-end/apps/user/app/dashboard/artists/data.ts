@@ -29,4 +29,8 @@ export const ALL_ARTISTS: ArtistWithSchedule[] = [
   { id: "bao-chau",       name: "Bảo Châu",         district: "Sơn Trà",      city: "Đà Nẵng", rating: 4.8, photo: "/images/makeup5.jpg", avatar: "/images/avatar.png", sessions: ["Chiều", "Tối"] },
 ];
 
+export const RATINGS = ["Tất cả", "5 sao", "4.5+ sao", "4.0+ sao"];
+
+export const SORT_OPTIONS = ["Đánh giá cao nhất", "Tên A–Z"];
+
 export const PAGE_SIZE = 8;

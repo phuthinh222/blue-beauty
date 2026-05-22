@@ -1,24 +1,24 @@
 "use client";
 
 import {
-  useState, useRef, useEffect, useCallback, useReducer,
+  useState, useRef, useEffect, useCallback,
 } from "react";
 import Link from "next/link";
 import {
-  Camera, Upload, RotateCcw, Sparkles, Eye, Smile, Brush,
+  Camera, Upload, RotateCcw, Sparkles, Eye, Smile, Brush, Pencil,
   CameraOff, FlipHorizontal, Loader2, CheckCircle2, AlertCircle,
-  ImageIcon,
+  ImageIcon, ChevronLeft, ChevronRight,
 } from "lucide-react";
 
-import { SiteHeader }     from "@/components/layout/site-header";
-import { SiteFooter }     from "@/components/layout/site-footer";
+import { SiteHeader }      from "@/components/layout/site-header";
+import { SiteFooter }      from "@/components/layout/site-footer";
 import { FloatingActions } from "@/components/shared/floating-actions";
-import { useAuth }        from "@/hooks/use-auth";
+import { useAuth }         from "@/hooks/use-auth";
 
-import { useFaceLandmarker }   from "./hooks/use-face-landmarker";
-import { useMakeupState }      from "./hooks/use-makeup-state";
-import { drawLips, drawBlush, drawEyeshadow } from "./lib/makeup-renderer";
-import { SKIN_SAMPLE_INDICES }  from "./lib/face-landmarks";
+import { useFaceLandmarker }                                from "./hooks/use-face-landmarker";
+import { useMakeupState }                                   from "./hooks/use-makeup-state";
+import { drawLips, drawBlush, drawEyeshadow, drawEyebrows } from "./lib/makeup-renderer";
+import { SKIN_SAMPLE_INDICES }                              from "./lib/face-landmarks";
 import {
   classifySkinTone, getPalette, sampleLandmarkPixels,
   type SkinTone, type SkinPalette,
@@ -26,9 +26,10 @@ import {
 
 /* ─── Constants ──────────────────────────────────────────────── */
 const TAB_META = [
-  { id: "lips"  as const, label: "Son môi", icon: Smile  },
-  { id: "blush" as const, label: "Má hồng", icon: Brush  },
-  { id: "eyes"  as const, label: "Mắt",     icon: Eye    },
+  { id: "lips"  as const, label: "Son môi",  icon: Smile  },
+  { id: "blush" as const, label: "Má hồng",  icon: Brush  },
+  { id: "eyes"  as const, label: "Mắt",      icon: Eye    },
+  { id: "brows" as const, label: "Chân mày", icon: Pencil },
 ];
 
 const SKIN_LABELS: Record<SkinTone, string> = {
@@ -36,33 +37,25 @@ const SKIN_LABELS: Record<SkinTone, string> = {
   tan: "Da nâu ấm", deep: "Da sẫm",
 };
 
-/* ─── Canvas drawing ─────────────────────────────────────────── */
-function renderMakeup(
-  canvas: HTMLCanvasElement,
-  source: HTMLImageElement | HTMLVideoElement,
-  landmarks: { x: number; y: number }[],
+/* ─── Helper: apply all enabled makeup layers to a context ───── */
+function applyMakeupToCtx(
+  ctx: CanvasRenderingContext2D,
+  lm: { x: number; y: number }[],
+  W: number, H: number,
   makeup: ReturnType<typeof useMakeupState>["state"],
 ) {
-  const W = "naturalWidth" in source ? source.naturalWidth  : source.videoWidth;
-  const H = "naturalHeight" in source ? source.naturalHeight : source.videoHeight;
-  if (!W || !H) return;
-
-  canvas.width  = W;
-  canvas.height = H;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  ctx.drawImage(source, 0, 0, W, H);
-
+  if (!lm.length) return;
   if (makeup.lips.enabled)
-    drawLips(ctx, landmarks, W, H, makeup.lips.color, makeup.lips.opacity);
+    drawLips(ctx, lm, W, H, makeup.lips.color, makeup.lips.opacity);
   if (makeup.blush.enabled)
-    drawBlush(ctx, landmarks, W, H, makeup.blush.color, makeup.blush.opacity, makeup.blush.size);
+    drawBlush(ctx, lm, W, H, makeup.blush.color, makeup.blush.opacity, makeup.blush.size);
   if (makeup.eyeshadow.enabled)
-    drawEyeshadow(ctx, landmarks, W, H, makeup.eyeshadow.color, makeup.eyeshadow.opacity);
+    drawEyeshadow(ctx, lm, W, H, makeup.eyeshadow.color, makeup.eyeshadow.opacity);
+  if (makeup.brows.enabled)
+    drawEyebrows(ctx, lm, W, H, makeup.brows.color, makeup.brows.opacity);
 }
 
-/* ─── Swatch component ───────────────────────────────────────── */
+/* ─── Swatch ─────────────────────────────────────────────────── */
 function Swatch({ hex, active, onClick }: { hex: string; active: boolean; onClick: () => void }) {
   return (
     <button
@@ -79,7 +72,7 @@ function Swatch({ hex, active, onClick }: { hex: string; active: boolean; onClic
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function TryOnPage() {
   const { isLoggedIn, user, onLogout } = useAuth();
-  const { status: mpStatus, detect }  = useFaceLandmarker();
+  const { status: mpStatus, detect }   = useFaceLandmarker();
   const { state: makeup, dispatch }    = useMakeupState();
 
   /* Media state */
@@ -91,69 +84,91 @@ export default function TryOnPage() {
   const [captured, setCaptured]       = useState(false);
 
   /* Landmark & skin state */
-  const [landmarks, setLandmarks]       = useState<{ x: number; y: number }[]>([]);
-  const [detecting, setDetecting]       = useState(false);
-  const [faceFound, setFaceFound]       = useState<boolean | null>(null);
-  const [skinTone, setSkinTone]         = useState<SkinTone | null>(null);
-  const [palette, setPalette]           = useState<SkinPalette | null>(null);
-  const [analyzing, setAnalyzing]       = useState(false);
+  const [landmarks, setLandmarks] = useState<{ x: number; y: number }[]>([]);
+  const [detecting, setDetecting] = useState(false);
+  const [faceFound, setFaceFound] = useState<boolean | null>(null);
+  const [skinTone, setSkinTone]   = useState<SkinTone | null>(null);
+  const [palette, setPalette]     = useState<SkinPalette | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+
+  /* Before/after slider (0–100%) */
+  const [sliderX, setSliderX] = useState(50);
+
+  /* Aspect ratio of canvas content — keeps container from distorting the image */
+  const [canvasAspect, setCanvasAspect] = useState<string | null>(null);
 
   /* Refs */
-  const fileRef    = useRef<HTMLInputElement>(null);
-  const imgRef     = useRef<HTMLImageElement>(null);
-  const videoRef   = useRef<HTMLVideoElement>(null);
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const streamRef  = useRef<MediaStream | null>(null);
-  const rafRef     = useRef<number>(0);
-  const lmRef      = useRef<{ x: number; y: number }[]>([]);
-  const makeupRef  = useRef(makeup);
-  const mirrorRef  = useRef(mirrored);
-  const capturedRef = useRef(false);
+  const fileRef            = useRef<HTMLInputElement>(null);
+  const imgRef             = useRef<HTMLImageElement>(null);
+  const videoRef           = useRef<HTMLVideoElement>(null);
+  const origCanvasRef      = useRef<HTMLCanvasElement>(null);
+  const makeupCanvasRef    = useRef<HTMLCanvasElement>(null);
+  const sliderContainerRef = useRef<HTMLDivElement>(null);
+  const streamRef          = useRef<MediaStream | null>(null);
+  const rafRef             = useRef<number>(0);
+  const lmRef              = useRef<{ x: number; y: number }[]>([]);
+  const makeupRef          = useRef(makeup);
+  const mirrorRef          = useRef(mirrored);
+  const capturedRef        = useRef(false);
 
-  useEffect(() => { makeupRef.current = makeup; }, [makeup]);
-  useEffect(() => { mirrorRef.current = mirrored; }, [mirrored]);
+  useEffect(() => { makeupRef.current  = makeup;   }, [makeup]);
+  useEffect(() => { mirrorRef.current  = mirrored;  }, [mirrored]);
   useEffect(() => { capturedRef.current = captured; }, [captured]);
 
   /* ── Redraw photo whenever makeup or landmarks change ─────── */
   useEffect(() => {
     if (mode !== "photo" || !photoSrc || !landmarks.length) return;
-    const canvas = canvasRef.current;
-    const img    = imgRef.current;
-    if (!canvas || !img || !img.complete) return;
-    renderMakeup(canvas, img, landmarks, makeup);
+    const orig = origCanvasRef.current;
+    const mk   = makeupCanvasRef.current;
+    const img  = imgRef.current;
+    if (!orig || !mk || !img || !img.complete) return;
+
+    const W = img.naturalWidth, H = img.naturalHeight;
+    orig.width = W; orig.height = H;
+    mk.width   = W; mk.height   = H;
+
+    const origCtx = orig.getContext("2d");
+    const mkCtx   = mk.getContext("2d");
+    if (!origCtx || !mkCtx) return;
+
+    origCtx.drawImage(img, 0, 0, W, H);
+    mkCtx.drawImage(img, 0, 0, W, H);
+    applyMakeupToCtx(mkCtx, landmarks, W, H, makeup);
   }, [mode, photoSrc, landmarks, makeup]);
 
   /* ── Camera RAF loop ─────────────────────────────────────── */
-  const cameraLoop = useCallback(() => {
-    /* Stop rendering when user has captured a still frame */
+  /* Named function expression lets it reference itself without a "before declaration" issue */
+  const cameraLoop = useCallback(function loop() {
     if (capturedRef.current) return;
-    const canvas = canvasRef.current;
-    const video  = videoRef.current;
-    if (!canvas || !video || video.readyState < 2) {
-      rafRef.current = requestAnimationFrame(cameraLoop);
+    const orig  = origCanvasRef.current;
+    const mk    = makeupCanvasRef.current;
+    const video = videoRef.current;
+    if (!orig || !mk || !video || video.readyState < 2) {
+      rafRef.current = requestAnimationFrame(loop);
       return;
     }
     const W = video.videoWidth, H = video.videoHeight;
-    canvas.width = W; canvas.height = H;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    orig.width = W; orig.height = H;
+    mk.width   = W; mk.height   = H;
+
+    const origCtx = orig.getContext("2d");
+    const mkCtx   = mk.getContext("2d");
+    if (!origCtx || !mkCtx) return;
 
     if (mirrorRef.current) {
-      ctx.save(); ctx.translate(W, 0); ctx.scale(-1, 1);
-      ctx.drawImage(video, 0, 0, W, H);
-      ctx.restore();
+      origCtx.save(); origCtx.translate(W, 0); origCtx.scale(-1, 1);
+      origCtx.drawImage(video, 0, 0, W, H);
+      origCtx.restore();
+      mkCtx.save(); mkCtx.translate(W, 0); mkCtx.scale(-1, 1);
+      mkCtx.drawImage(video, 0, 0, W, H);
+      mkCtx.restore();
     } else {
-      ctx.drawImage(video, 0, 0, W, H);
+      origCtx.drawImage(video, 0, 0, W, H);
+      mkCtx.drawImage(video, 0, 0, W, H);
     }
 
-    const lm = lmRef.current;
-    const mk = makeupRef.current;
-    if (lm.length) {
-      if (mk.lips.enabled)      drawLips(ctx, lm, W, H, mk.lips.color, mk.lips.opacity);
-      if (mk.blush.enabled)     drawBlush(ctx, lm, W, H, mk.blush.color, mk.blush.opacity, mk.blush.size);
-      if (mk.eyeshadow.enabled) drawEyeshadow(ctx, lm, W, H, mk.eyeshadow.color, mk.eyeshadow.opacity);
-    }
-    rafRef.current = requestAnimationFrame(cameraLoop);
+    applyMakeupToCtx(mkCtx, lmRef.current, W, H, makeupRef.current);
+    rafRef.current = requestAnimationFrame(loop);
   }, []);
 
   /* ── Start / stop camera ─────────────────────────────────── */
@@ -169,6 +184,7 @@ export default function TryOnPage() {
         vid.srcObject = stream;
         vid.oncanplay = () => {
           void vid.play();
+          setCanvasAspect(`${vid.videoWidth || 640} / ${vid.videoHeight || 640}`);
           setCameraReady(true);
           cancelAnimationFrame(rafRef.current);
           rafRef.current = requestAnimationFrame(cameraLoop);
@@ -189,9 +205,8 @@ export default function TryOnPage() {
     return stopCamera;
   }, [mode, startCamera, stopCamera]);
 
-  /* ── Capture still from camera ───────────────────────────── */
+  /* ── Capture / retake ────────────────────────────────────── */
   function handleCapture() {
-    /* capturedRef set → RAF loop will stop on next tick */
     capturedRef.current = true;
     setCaptured(true);
     setFaceFound(null);
@@ -203,7 +218,6 @@ export default function TryOnPage() {
     setCaptured(false);
     setFaceFound(null);
     setLandmarks([]); lmRef.current = [];
-    /* Restart the RAF loop */
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(cameraLoop);
   }
@@ -211,26 +225,17 @@ export default function TryOnPage() {
   /* ── Detect face ─────────────────────────────────────────── */
   async function handleDetect() {
     if (mpStatus !== "ready") return;
-    /* In camera mode use canvas (frozen frame); in photo mode use img element */
-    const source = mode === "camera"
-      ? canvasRef.current
-      : imgRef.current;
+    const source = mode === "camera" ? origCanvasRef.current : imgRef.current;
     if (!source) return;
     setDetecting(true); setFaceFound(null);
-    await new Promise(r => setTimeout(r, 50)); // let UI update
+    await new Promise(r => setTimeout(r, 50));
 
-    const result = detect(source as HTMLImageElement | HTMLVideoElement);
+    const result = detect(source);
     if (result.length) {
       const lm = result[0];
       setLandmarks(lm);
       lmRef.current = lm;
       setFaceFound(true);
-      /* Redraw photo immediately */
-      if (mode === "photo") {
-        const canvas = canvasRef.current;
-        const img    = imgRef.current;
-        if (canvas && img) renderMakeup(canvas, img, lm, makeup);
-      }
     } else {
       setFaceFound(false);
     }
@@ -241,9 +246,9 @@ export default function TryOnPage() {
   async function handleAnalyze() {
     if (!landmarks.length) return;
     setAnalyzing(true);
-    await new Promise(r => setTimeout(r, 300)); // simulate processing
+    await new Promise(r => setTimeout(r, 300));
 
-    const canvas = canvasRef.current;
+    const canvas = origCanvasRef.current;
     if (!canvas) { setAnalyzing(false); return; }
     const ctx = canvas.getContext("2d");
     if (!ctx) { setAnalyzing(false); return; }
@@ -261,14 +266,10 @@ export default function TryOnPage() {
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPhotoSrc(url);
+    setPhotoSrc(URL.createObjectURL(file));
     setMode("photo");
-    setLandmarks([]);
-    lmRef.current = [];
-    setFaceFound(null);
-    setSkinTone(null);
-    setPalette(null);
+    setLandmarks([]); lmRef.current = [];
+    setFaceFound(null); setSkinTone(null); setPalette(null);
   }
 
   function handleReset() {
@@ -279,24 +280,38 @@ export default function TryOnPage() {
     setFaceFound(null); setSkinTone(null); setPalette(null);
     setCameraError(false);
     capturedRef.current = false; setCaptured(false);
+    setSliderX(50);
+    setCanvasAspect(null);
     dispatch({ type: "RESET" });
     if (fileRef.current) fileRef.current.value = "";
   }
 
-  /* ── Active layer helpers ────────────────────────────────── */
-  const activeKey = makeup.activeTab === "eyes" ? "eyeshadow" : makeup.activeTab;
+  /* ── Slider drag ─────────────────────────────────────────── */
+  function handleSliderMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.buttons !== 1) return;
+    const container = sliderContainerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    setSliderX(Math.max(0, Math.min(100, x)));
+  }
+
+  /* ── Derived ─────────────────────────────────────────────── */
+  const activeKey   = (makeup.activeTab === "eyes" ? "eyeshadow" : makeup.activeTab) as keyof typeof makeup;
   const activeLayer = makeup[activeKey] as { enabled: boolean; color: string; opacity: number };
+
   const paletteSwatches = palette
     ? makeup.activeTab === "lips"  ? palette.lips
     : makeup.activeTab === "blush" ? palette.blush
     : palette.eyeshadow
     : null;
 
-  /* ── Status badge ────────────────────────────────────────── */
   const mpLabel =
     mpStatus === "loading" ? "Đang tải mô hình AI…"
     : mpStatus === "error"  ? "Không thể tải mô hình"
     : "Mô hình sẵn sàng";
+
+  const showSlider = landmarks.length > 0;
 
   return (
     <div className="min-h-dvh bg-slate-50 pb-16 md:pb-0">
@@ -311,7 +326,6 @@ export default function TryOnPage() {
       </div>
 
       <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-        {/* Title */}
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-brand">Try on makeup</h1>
           <div className="mx-auto mt-2 h-0.5 w-16 bg-linear-to-r from-brand to-pink-500" />
@@ -321,26 +335,87 @@ export default function TryOnPage() {
 
           {/* ── Left: canvas + actions ──────────────────────── */}
           <div className="space-y-4">
-            {/* Canvas display */}
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-black shadow-sm" style={{ minHeight: 320 }}>
+
+            {/* Canvas / before-after container */}
+            <div
+              ref={sliderContainerRef}
+              className="relative overflow-hidden rounded-2xl border border-slate-200 bg-black shadow-sm"
+              style={canvasAspect
+                ? { aspectRatio: canvasAspect }
+                : { aspectRatio: "1 / 1" }}
+            >
               {/* Hidden source image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img ref={imgRef} src={photoSrc ?? undefined} alt="" className="hidden"
+              <img
+                ref={imgRef}
+                src={photoSrc ?? undefined}
+                alt=""
+                className="hidden"
                 onLoad={() => {
-                  const c = canvasRef.current, img = imgRef.current;
-                  if (!c || !img) return;
-                  const ctx = c.getContext("2d");
-                  if (!ctx) return;
-                  c.width = img.naturalWidth; c.height = img.naturalHeight;
-                  ctx.drawImage(img, 0, 0);
-                }} />
+                  const orig = origCanvasRef.current;
+                  const mk   = makeupCanvasRef.current;
+                  const img  = imgRef.current;
+                  if (!orig || !mk || !img) return;
+                  const W = img.naturalWidth, H = img.naturalHeight;
+                  orig.width = W; orig.height = H;
+                  mk.width   = W; mk.height   = H;
+                  setCanvasAspect(`${W} / ${H}`);
+                  const origCtx = orig.getContext("2d");
+                  const mkCtx   = mk.getContext("2d");
+                  if (origCtx) origCtx.drawImage(img, 0, 0);
+                  if (mkCtx)   mkCtx.drawImage(img, 0, 0);
+                }}
+              />
 
-              {/* Hidden video */}
-              <video ref={videoRef} autoPlay playsInline muted
-                className="pointer-events-none absolute opacity-0" style={{ width: 1, height: 1 }} />
+              {/* Hidden video feed */}
+              <video
+                ref={videoRef}
+                autoPlay playsInline muted
+                className="pointer-events-none absolute opacity-0"
+                style={{ width: 1, height: 1 }}
+              />
 
-              {/* Main canvas */}
-              <canvas ref={canvasRef} className="h-full w-full object-contain" />
+              {/* Before canvas (raw image) */}
+              <canvas
+                ref={origCanvasRef}
+                className="absolute inset-0 h-full w-full"
+                style={showSlider ? { clipPath: `inset(0 ${100 - sliderX}% 0 0)` } : { display: "none" }}
+              />
+
+              {/* After canvas (with makeup) */}
+              <canvas
+                ref={makeupCanvasRef}
+                className="absolute inset-0 h-full w-full"
+                style={showSlider ? { clipPath: `inset(0 0 0 ${sliderX}%)` } : undefined}
+              />
+
+              {/* Before/after drag handle */}
+              {showSlider && (
+                <div
+                  className="absolute inset-y-0 z-20 flex cursor-ew-resize flex-col items-center"
+                  style={{ left: `${sliderX}%`, transform: "translateX(-50%)" }}
+                  onPointerDown={e => e.currentTarget.setPointerCapture(e.pointerId)}
+                  onPointerMove={handleSliderMove}
+                >
+                  <div className="h-full w-0.5 bg-white/90 shadow" />
+                  <div className="absolute top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg">
+                    <ChevronLeft className="size-3.5 text-slate-500" />
+                    <ChevronRight className="size-3.5 text-slate-500" />
+                  </div>
+                </div>
+              )}
+
+              {/* Before/after labels */}
+              {showSlider && (
+                <>
+                  <div className="absolute left-2 top-2 z-10 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+                    Gốc
+                  </div>
+                  <div className="absolute right-2 top-2 z-10 rounded-full bg-brand/70 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+                    Makeup
+                  </div>
+                </>
+              )}
 
               {/* Idle placeholder */}
               {mode === "idle" && (
@@ -366,7 +441,7 @@ export default function TryOnPage() {
                 </div>
               )}
 
-              {/* Shutter button — shown when camera live (not yet captured) */}
+              {/* Shutter button */}
               {mode === "camera" && cameraReady && !captured && (
                 <div className="absolute inset-x-0 bottom-5 flex flex-col items-center gap-2">
                   <button
@@ -381,7 +456,7 @@ export default function TryOnPage() {
                 </div>
               )}
 
-              {/* Captured overlay — retake hint */}
+              {/* Retake overlay */}
               {mode === "camera" && captured && (
                 <div className="absolute inset-x-0 bottom-5 flex justify-center">
                   <button
@@ -396,7 +471,7 @@ export default function TryOnPage() {
 
               {/* Captured badge */}
               {mode === "camera" && captured && (
-                <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-brand/80 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-brand/80 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
                   <ImageIcon className="size-3.5" />
                   Đã chụp
                 </div>
@@ -404,7 +479,7 @@ export default function TryOnPage() {
 
               {/* Face detection badge */}
               {faceFound !== null && (
-                <div className={`absolute right-3 top-3 flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium backdrop-blur-sm ${
+                <div className={`absolute right-3 top-3 z-10 flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium backdrop-blur-sm ${
                   faceFound ? "bg-emerald-500/80 text-white" : "bg-red-500/80 text-white"
                 }`}>
                   {faceFound ? <CheckCircle2 className="size-3.5" /> : <AlertCircle className="size-3.5" />}
@@ -412,6 +487,13 @@ export default function TryOnPage() {
                 </div>
               )}
             </div>
+
+            {/* Slider hint */}
+            {showSlider && (
+              <p className="text-center text-xs text-slate-400">
+                Kéo thanh trượt để so sánh trước / sau trang điểm
+              </p>
+            )}
 
             {/* Action buttons */}
             <div className="flex flex-wrap gap-2">
@@ -421,7 +503,6 @@ export default function TryOnPage() {
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
               </label>
 
-              {/* Camera toggle — hide when captured (use Retake in overlay instead) */}
               {!captured && (
                 <button
                   onClick={() => setMode(mode === "camera" ? "idle" : "camera")}
@@ -436,7 +517,6 @@ export default function TryOnPage() {
                 </button>
               )}
 
-              {/* Mirror toggle — only when live camera */}
               {mode === "camera" && !captured && (
                 <button
                   onClick={() => setMirrored(v => !v)}
@@ -447,7 +527,6 @@ export default function TryOnPage() {
                 </button>
               )}
 
-              {/* Retake button in action bar when captured */}
               {captured && (
                 <button
                   onClick={handleRetake}
@@ -524,17 +603,17 @@ export default function TryOnPage() {
                   <span className="text-sm font-medium text-slate-700">Bật / Tắt</span>
                   <button
                     onClick={() => dispatch({ type: "TOGGLE", layer: makeup.activeTab })}
-                    className={`relative h-6 w-11 rounded-full transition ${
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
                       activeLayer.enabled ? "bg-brand" : "bg-slate-200"
                     }`}
                   >
-                    <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+                    <span className={`inline-block h-5 w-5 rounded-full bg-white shadow transition-transform ${
                       activeLayer.enabled ? "translate-x-5" : "translate-x-0.5"
                     }`} />
                   </button>
                 </div>
 
-                {/* Palette swatches (from AI recommendation) */}
+                {/* Palette swatches */}
                 {paletteSwatches && (
                   <div>
                     <p className="mb-2 text-xs font-medium text-slate-500">Màu gợi ý</p>

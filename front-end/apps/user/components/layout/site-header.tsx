@@ -174,7 +174,7 @@ export function SiteHeader({ onLogout, user }: SiteHeaderProps) {
       {/* Mobile nav */}
       <div className="border-t border-slate-100 px-4 py-2 md:hidden">
         <nav className="flex gap-4 overflow-x-auto pb-1 text-xs font-medium text-slate-600 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <a href="#concept" className="shrink-0 hover:text-brand">Concept</a>
+          <Link href="/dashboard/concept" className="shrink-0 hover:text-brand">Concept</Link>
           <Link href="/dashboard/artists" className="shrink-0 hover:text-brand">Thợ trang điểm</Link>
           <Link href="/dashboard/promotions" className="shrink-0 hover:text-brand">Khuyến mãi</Link>
           <Link href="/dashboard/try-on" className="shrink-0 hover:text-brand">Try on makeup</Link>

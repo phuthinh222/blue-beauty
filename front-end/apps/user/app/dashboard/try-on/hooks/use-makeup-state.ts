@@ -3,7 +3,7 @@
 import { useReducer } from "react";
 import type { SkinPalette } from "../lib/skin-analyzer";
 
-export type MakeupTab = "lips" | "blush" | "eyes";
+export type MakeupTab = "lips" | "blush" | "eyes" | "brows";
 
 export interface LayerState {
   enabled: boolean;
@@ -15,6 +15,7 @@ export interface MakeupState {
   lips:      LayerState & { size?: number };
   blush:     LayerState & { size: number };
   eyeshadow: LayerState;
+  brows:     LayerState;
   activeTab: MakeupTab;
 }
 
@@ -31,6 +32,7 @@ const INITIAL: MakeupState = {
   lips:      { enabled: true,  color: "#C4457A", opacity: 0.65 },
   blush:     { enabled: true,  color: "#FFB5A7", opacity: 0.55, size: 1 },
   eyeshadow: { enabled: false, color: "#C49A8A", opacity: 0.50 },
+  brows:     { enabled: false, color: "#4A3000", opacity: 0.60 },
   activeTab: "lips",
 };
 
@@ -62,6 +64,7 @@ function reducer(state: MakeupState, action: Action): MakeupState {
         lips:      { ...state.lips,      color: action.palette.lips[0].hex },
         blush:     { ...state.blush,     color: action.palette.blush[0].hex },
         eyeshadow: { ...state.eyeshadow, color: action.palette.eyeshadow[0].hex },
+        brows:     { ...state.brows,     color: action.palette.eyeshadow[1]?.hex ?? state.brows.color },
       };
     case "RESET":
       return INITIAL;

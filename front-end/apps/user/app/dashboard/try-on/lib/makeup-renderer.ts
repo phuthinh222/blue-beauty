@@ -1,4 +1,4 @@
-import { LIPS_OUTER, LM } from "./face-landmarks";
+import { LIPS_OUTER, LM, LEFT_EYEBROW, RIGHT_EYEBROW } from "./face-landmarks";
 
 interface LM2D { x: number; y: number }
 
@@ -23,6 +23,7 @@ export function drawLips(
 ) {
   const { r, g, b } = hexRgb(hex);
   ctx.save();
+  ctx.filter = "blur(0.5px)";
   ctx.globalCompositeOperation = "multiply";
   ctx.globalAlpha = opacity;
   ctx.fillStyle = `rgb(${r},${g},${b})`;
@@ -53,6 +54,7 @@ export function drawBlush(
     g2.addColorStop(0, `rgba(${r},${g},${b},${opacity * 0.55})`);
     g2.addColorStop(1, `rgba(${r},${g},${b},0)`);
     ctx.save();
+    ctx.filter = "blur(3px)";
     ctx.globalCompositeOperation = "multiply";
     ctx.fillStyle = g2;
     ctx.beginPath();
@@ -61,11 +63,10 @@ export function drawBlush(
     ctx.restore();
   };
 
-  /* Cheek centers = blend between outer eye corner and lip corner */
-  const lo = pt(lm, LM.leftEyeOuter,   W, H);
+  const lo  = pt(lm, LM.leftEyeOuter,   W, H);
   const lm2 = pt(lm, LM.lipLeftCorner,  W, H);
-  const ro = pt(lm, LM.rightEyeOuter,  W, H);
-  const rm = pt(lm, LM.lipRightCorner, W, H);
+  const ro  = pt(lm, LM.rightEyeOuter,  W, H);
+  const rm  = pt(lm, LM.lipRightCorner, W, H);
   drawCheek(lo.x * 0.55 + lm2.x * 0.45, lo.y * 0.38 + lm2.y * 0.62);
   drawCheek(ro.x * 0.55 + rm.x  * 0.45, ro.y * 0.38 + rm.y  * 0.62);
 }
@@ -83,8 +84,8 @@ export function drawEyeshadow(
     const outer = pt(lm, outerI, W, H);
     const top   = pt(lm, topI,   W, H);
     const brow  = pt(lm, browI,  W, H);
-    const cx = (inner.x + outer.x) / 2;
-    const rx = Math.abs(outer.x - inner.x) / 2;
+    const cx  = (inner.x + outer.x) / 2;
+    const rx  = Math.abs(outer.x - inner.x) / 2;
     const eyeH = Math.abs(top.y - brow.y);
     const shadowTop = brow.y + eyeH * 0.2;
     const shadowBot = top.y  + eyeH * 0.35;
@@ -94,6 +95,7 @@ export function drawEyeshadow(
     grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
     grad.addColorStop(1, `rgba(${r},${g},${b},${opacity * 0.65})`);
     ctx.save();
+    ctx.filter = "blur(2px)";
     ctx.globalCompositeOperation = "multiply";
     ctx.fillStyle = grad;
     ctx.beginPath();
@@ -103,4 +105,33 @@ export function drawEyeshadow(
   };
   drawEye(LM.leftEyeInner,  LM.leftEyeOuter,  LM.leftEyeTop,  LM.leftBrow);
   drawEye(LM.rightEyeInner, LM.rightEyeOuter, LM.rightEyeTop, LM.rightBrow);
+}
+
+export function drawEyebrows(
+  ctx: CanvasRenderingContext2D,
+  lm: LM2D[],
+  W: number, H: number,
+  hex: string,
+  opacity: number,
+) {
+  const { r, g, b } = hexRgb(hex);
+  const drawBrow = (indices: number[]) => {
+    ctx.save();
+    ctx.filter = "blur(2px)";
+    ctx.globalCompositeOperation = "multiply";
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.beginPath();
+    const start = pt(lm, indices[0], W, H);
+    ctx.moveTo(start.x, start.y);
+    for (let i = 1; i < indices.length; i++) {
+      const p = pt(lm, indices[i], W, H);
+      ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  };
+  drawBrow(LEFT_EYEBROW);
+  drawBrow(RIGHT_EYEBROW);
 }
