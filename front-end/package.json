@@ -6,6 +6,7 @@
     "dev": "turbo run dev",
     "dev:admin": "pnpm turbo dev --filter=admin",
     "dev:user": "pnpm turbo dev --filter=user",
+    "dev:artist": "pnpm turbo dev --filter=artist",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
@@ -23,6 +24,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^1.8.0",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0"
   }
 }
