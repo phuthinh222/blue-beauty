@@ -48,7 +48,7 @@ export function useLoginForm() {
     try {
       const res = await loginUser({ username: safeUsername, password });
       if (res.accessToken) storeToken(res.accessToken, rememberMe);
-      toast.success("Đăng nhập thành công!");
+      toast.success("Đăng nhập thành công!", { closeButton: false });
       router.replace(getPostLoginPath());
     } catch (err) {
       if (err instanceof ApiError) {

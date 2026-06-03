@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, MessageCircle, Phone } from "lucide-react";
+import { toast } from "sonner";
 
 import logo from "@repo/assets/logo.png";
 import { Button } from "@repo/ui/button";
@@ -82,6 +83,7 @@ export default function LoginPage() {
         }
       }
 
+      toast.success("Đăng nhập thành công");
       router.replace("/dashboard");
     } catch (err) {
       if (err instanceof ApiError) {

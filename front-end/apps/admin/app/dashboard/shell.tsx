@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { ApiError } from "../../lib/api";
 import { getAdminMe, logoutAdmin, type AdminMeResponse } from "../../lib/auth";
@@ -42,6 +43,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     } finally {
       localStorage.removeItem("admin_access_token");
       sessionStorage.removeItem("admin_access_token");
+      toast.success("Đăng xuất thành công");
       router.replace("/login?logged_out=1");
       setIsLoggingOut(false);
     }

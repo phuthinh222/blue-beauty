@@ -160,7 +160,7 @@ export function SiteHeader({ onLogout, user }: SiteHeaderProps) {
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
           <Link href="/dashboard" className="hover:text-brand">Trang chủ</Link>
-          <Link href="/dashboard/artists" className="hover:text-brand">Bài viết</Link>
+          <Link href="/dashboard/profile" className="hover:text-brand">Hồ sơ</Link>
           <Link href="/dashboard/promotions" className="hover:text-brand">Marketing</Link>
         </nav>
 
@@ -193,7 +193,7 @@ export function SiteHeader({ onLogout, user }: SiteHeaderProps) {
       <div className="border-t border-slate-100 px-4 py-2 md:hidden">
         <nav className="flex gap-4 overflow-x-auto pb-1 text-xs font-medium text-slate-600 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Link href="/dashboard" className="shrink-0 hover:text-brand">Trang chủ</Link>
-          <Link href="/dashboard/artists" className="shrink-0 hover:text-brand">Bài viết</Link>
+          <Link href="/dashboard/profile" className="shrink-0 hover:text-brand">Hồ sơ</Link>
           <Link href="/dashboard/promotions" className="shrink-0 hover:text-brand">Marketing</Link>
         </nav>
       </div>
