@@ -5,17 +5,17 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "packages/theme/base.css",
+    "css": "apps/admin/app/globals.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
-    "components": "packages/ui",
-    "utils": "@blue-beauty/utils",
-    "ui": "packages/ui",
-    "lib": "packages/auth",
-    "hooks": "packages/hooks"
+    "components": "packages/ui/src",
+    "utils": "packages/ui/src/lib/utils",
+    "ui": "packages/ui/src",
+    "lib": "packages/ui/src/lib",
+    "hooks": "packages/ui/src/hooks"
   }
 }
 

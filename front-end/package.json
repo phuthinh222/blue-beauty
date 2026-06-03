@@ -20,11 +20,5 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "class-variance-authority": "^0.7.1",
-    "lucide-react": "^1.8.0",
-    "sonner": "^2.0.7",
-    "tailwind-merge": "^3.5.0"
   }
 }
