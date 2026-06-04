@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-ui/react-toast": "^1.2.15",
+    "@repo/api": "workspace:^",
     "@repo/assets": "workspace:*",
     "@repo/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",

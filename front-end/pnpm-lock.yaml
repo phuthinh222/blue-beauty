@@ -26,6 +26,9 @@ importers:
       '@radix-ui/react-toast':
         specifier: ^1.2.15
         version: 1.2.15(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@repo/api':
+        specifier: workspace:^
+        version: link:../../packages/api
       '@repo/assets':
         specifier: workspace:*
         version: link:../../packages/assets
@@ -90,6 +93,9 @@ importers:
       '@mediapipe/tasks-vision':
         specifier: ^0.10.35
         version: 0.10.35
+      '@repo/api':
+        specifier: workspace:^
+        version: link:../../packages/api
       '@repo/assets':
         specifier: workspace:*
         version: link:../../packages/assets
@@ -154,6 +160,9 @@ importers:
       '@mediapipe/tasks-vision':
         specifier: ^0.10.35
         version: 0.10.35
+      '@repo/api':
+        specifier: workspace:^
+        version: link:../../packages/api
       '@repo/assets':
         specifier: workspace:*
         version: link:../../packages/assets
@@ -211,6 +220,24 @@ importers:
         version: 1.4.0
       typescript:
         specifier: ^5
+        version: 5.9.2
+
+  packages/api:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
+      eslint:
+        specifier: ^9.39.1
+        version: 9.39.1(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.2
         version: 5.9.2
 
   packages/assets: {}
