@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="vi" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans text-slate-900">
         {children}
-        <Toaster position="top-right" />
+        <Toaster />
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast";
 
 import { ApiError } from "../../lib/api";
 import { getAdminMe, logoutAdmin, type AdminMeResponse } from "../../lib/auth";
