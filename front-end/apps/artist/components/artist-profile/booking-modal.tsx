@@ -1,7 +1,7 @@
 "use client";
 
 import { BookingModal as _BookingModal } from "@repo/ui/artist-profile";
-import { TIME_SLOTS } from "@/lib/config/booking";
+import { TIME_SLOTS } from "@repo/constants/booking";
 import type { ArtistService } from "@repo/ui/artist-profile";
 
 type Props = {

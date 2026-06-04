@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "apps/admin/app/globals.css",
+    "css": "packages/ui/src/globals.css",
     "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
@@ -18,4 +18,3 @@
     "hooks": "packages/ui/src/hooks"
   }
 }
-

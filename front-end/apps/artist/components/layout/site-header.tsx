@@ -8,7 +8,7 @@ import { LogOut, User } from "lucide-react";
 import logoAsset from "@repo/assets/logo.png";
 import { Button } from "@repo/ui/button";
 
-import { CONCEPT_ITEMS } from "@/lib/config/navigation";
+import { CONCEPT_ITEMS } from "@repo/constants/navigation";
 import type { UserProfile } from "@/lib/auth";
 
 function ConceptDropdown() {

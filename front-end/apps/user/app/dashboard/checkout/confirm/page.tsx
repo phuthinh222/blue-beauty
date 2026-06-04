@@ -8,7 +8,7 @@ import { CreditCard, Copy, Check } from "lucide-react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { useAuth } from "@/hooks/use-auth";
-import { BRAND_COLOR } from "@/lib/config/theme";
+import { BRAND_COLOR } from "@repo/constants/theme";
 
 const BANK_INFO = {
   bankName: "Ngân Hàng Quân Đội MB",
