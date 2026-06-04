@@ -1,4 +1,5 @@
 export { useAuthGuard } from "./use-auth-guard";
+export { VOUCHERS, calcDiscount, type VoucherMap } from "./lib/vouchers";
 export { useCheckoutParams, useVoucher, useCheckoutNavigation } from "./use-checkout";
 export { useFavorites } from "./use-favorites";
 export { useLogout } from "./use-logout";
