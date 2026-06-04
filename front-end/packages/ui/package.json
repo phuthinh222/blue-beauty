@@ -5,7 +5,10 @@
   "exports": {
     ".": "./src/index.tsx",
     "./*": "./src/*.tsx",
-    "./lib/utils": "./src/lib/utils.ts"
+    "./lib/utils": "./src/lib/utils.ts",
+    "./artist-profile": "./src/artist-profile/index.tsx",
+    "./concept": "./src/concept/index.tsx",
+    "./shared": "./src/shared/index.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -19,6 +22,7 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "eslint": "^9.39.1",
+    "next": "16.2.4",
     "typescript": "5.9.2"
   },
   "dependencies": {
